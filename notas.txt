@@ -1,0 +1,6 @@
+1. Lo primero que se hace es definir la RestAPI.
+- Se crea el archivo rest_api_ts_server
+- Desde la terminal ejecutamos npm init -- npm init → “Voy a crear un proyecto Node nuevo.”
+npm install express → “Quiero usar el framework Express dentro de mi proyecto.”
+node server.js → “Ejecutá mi servidor Express para que empiece a responder peticiones.” Es para empezar todo, es el gran big bang para node. lo que npm create vite@latest es el big bang para react
+- Se crean los archivos index.ts (arvhivo principal, el punto de entrada que ya definimos en node cuando lo arrancamos) y server.ts (configuracion del servidor)
