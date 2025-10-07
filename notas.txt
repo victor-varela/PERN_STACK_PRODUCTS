@@ -4,3 +4,40 @@
 npm install express → “Quiero usar el framework Express dentro de mi proyecto.”
 node server.js → “Ejecutá mi servidor Express para que empiece a responder peticiones.” Es para empezar todo, es el gran big bang para node. lo que npm create vite@latest es el big bang para react
 - Se crean los archivos index.ts (arvhivo principal, el punto de entrada que ya definimos en node cuando lo arrancamos) y server.ts (configuracion del servidor)
+- Si el proyecto fuera en Js, agregamos en el package JSON despues de license, "type": module para que se puedan importar funciones, variables, types...etc.. peeeero como es Ts debemos agregar unas dependencias: typescript para el soporte del lenguage (node esta hecho para Js) y ts-node (para soportar Ts en Node) npm i -D typescript ts-node
+- Lo anterior agrega al JSON las dependencias, bajo DevDependencies por eso las llamamos con npmx no con npm y corremos el archivo de entrada: index.ts --> npx ts-node src/index.ts. OJO para que esto funcione tenemos que crear en la raiz del proyecto el archivo tsconfig.json y dejarlo vacio por el momento para que node reconozca la extension .ts
+- Pero tendriamos que hacer esto cada vez que guardemos cambios. Entonces instalamos el nodemon (creo que es por node monitor.. como sass) y esto corre el archivo index.ts solito cada vez que guardamos cambios.
+- Instalamos nodemon npm i -D nodemon, en el json cambiamos la linea  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }, en lugar de test escribimos "dev" y le damos el comando--> "dev": "nodemon --exec ts-node src/index.ts".. reemplazamos el test, creo que porque esto es para pruebas.. ahora cada vez que corremos npm run dev se ejecuta nodemon (va a estar mirando los cambios y ejecutando el comando "exec" ts-node src/index.ts todos los cambios van a disparar el comando)
+
+  ⚙️ Contexto: TypeScript y Node no se entienden directamente
+
+Node.js (el motor del universo backend) solo entiende JavaScript.
+Cuando vos escribís en TypeScript (.ts), estás usando un lenguaje de alto nivel que agrega tipado, interfaces, decoradores, etc., pero que no puede ser ejecutado por Node directamente.
+
+Entonces, antes de que Node pueda "leer" tu código TS, hay que traducirlo a JavaScript puro.
+
+💫 Ahí entra npx tsc
+
+npx tsc ejecuta el TypeScript Compiler (TSC).
+Su misión es:
+
+“Traducir el universo TypeScript 🌌 al lenguaje que Node entiende: JavaScript ⚙️.”
+
+Cuando corrés ese comando, lo que hace es:
+
+Buscar tu archivo tsconfig.json (la configuración del traductor).
+
+Leer todas las reglas ahí dentro:
+
+Qué versión de JS debe generar.
+
+En qué carpeta poner los archivos compilados. /dist para produccion y /src para desarrollo
+
+Qué archivos ignorar.
+
+Si usar módulos ES o CommonJS, etc.
+
+Compilar todos tus .ts → .js dentro de una carpeta (normalmente /dist o /build).
+- Esto crea en src la version .js de index y server. Los eliminamos para no mezclar archivos de desarrollo con archivos de produccion. Porque mezclar .ts y .js genera caos en el espacio-tiempo 😅
