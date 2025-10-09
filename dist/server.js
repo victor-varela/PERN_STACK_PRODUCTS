@@ -5,3 +5,4 @@ var sumar = function () {
     return console.log(2 + 2);
 };
 exports.sumar = sumar;
+//# sourceMappingURL=server.js.map

@@ -5,7 +5,7 @@ npm install express → “Quiero usar el framework Express dentro de mi proyect
 node server.js → “Ejecutá mi servidor Express para que empiece a responder peticiones.” Es para empezar todo, es el gran big bang para node. lo que npm create vite@latest es el big bang para react
 - Se crean los archivos index.ts (arvhivo principal, el punto de entrada que ya definimos en node cuando lo arrancamos) y server.ts (configuracion del servidor)
 - Si el proyecto fuera en Js, agregamos en el package JSON despues de license, "type": module para que se puedan importar funciones, variables, types...etc.. peeeero como es Ts debemos agregar unas dependencias: typescript para el soporte del lenguage (node esta hecho para Js) y ts-node (para soportar Ts en Node) npm i -D typescript ts-node
-- Lo anterior agrega al JSON las dependencias, bajo DevDependencies por eso las llamamos con npmx no con npm y corremos el archivo de entrada: index.ts --> npx ts-node src/index.ts. OJO para que esto funcione tenemos que crear en la raiz del proyecto el archivo tsconfig.json y dejarlo vacio por el momento para que node reconozca la extension .ts
+- Lo anterior agrega al JSON las dependencias, bajo DevDependencies por eso las llamamos con npx no con npm y corremos el archivo de entrada: index.ts --> npx ts-node src/index.ts. OJO para que esto funcione tenemos que crear en la raiz del proyecto el archivo tsconfig.json y dejarlo vacio por el momento para que node reconozca la extension .ts
 - Pero tendriamos que hacer esto cada vez que guardemos cambios. Entonces instalamos el nodemon (creo que es por node monitor.. como sass) y esto corre el archivo index.ts solito cada vez que guardamos cambios.
 - Instalamos nodemon npm i -D nodemon, en el json cambiamos la linea  "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -40,4 +40,9 @@ Qué archivos ignorar.
 Si usar módulos ES o CommonJS, etc.
 
 Compilar todos tus .ts → .js dentro de una carpeta (normalmente /dist o /build).
-- Esto crea en src la version .js de index y server. Los eliminamos para no mezclar archivos de desarrollo con archivos de produccion. Porque mezclar .ts y .js genera caos en el espacio-tiempo 😅
+- Esto crea en src la version .js de index y server. Los eliminamos para no mezclar archivos de desarrollo con archivos de produccion. Porque mezclar .ts y .js genera caos en el espacio-tiempo 
+😅
+- Agregamos las reglas en el archivo tsconfig.json--> es configuracion "default" fijate en el archivo.-- a medida que agreamos configuraciones y ejecutamos npx tsc se van invocando esas configuraciones y cambia por ejemplo la carpeta dist.
+    🔹 compilerOptions
+
+Estas opciones son las reglas que le decís al traductor TypeScript sobre cómo convertir tu universo .ts a .js.
