@@ -1,48 +1,96 @@
-1. Lo primero que se hace es definir la RestAPI.
-- Se crea el archivo rest_api_ts_server
-- Desde la terminal ejecutamos npm init -- npm init → “Voy a crear un proyecto Node nuevo.”
-npm install express → “Quiero usar el framework Express dentro de mi proyecto.”
-node server.js → “Ejecutá mi servidor Express para que empiece a responder peticiones.” Es para empezar todo, es el gran big bang para node. lo que npm create vite@latest es el big bang para react
-- Se crean los archivos index.ts (arvhivo principal, el punto de entrada que ya definimos en node cuando lo arrancamos) y server.ts (configuracion del servidor)
-- Si el proyecto fuera en Js, agregamos en el package JSON despues de license, "type": module para que se puedan importar funciones, variables, types...etc.. peeeero como es Ts debemos agregar unas dependencias: typescript para el soporte del lenguage (node esta hecho para Js) y ts-node (para soportar Ts en Node) npm i -D typescript ts-node
-- Lo anterior agrega al JSON las dependencias, bajo DevDependencies por eso las llamamos con npx no con npm y corremos el archivo de entrada: index.ts --> npx ts-node src/index.ts. OJO para que esto funcione tenemos que crear en la raiz del proyecto el archivo tsconfig.json y dejarlo vacio por el momento para que node reconozca la extension .ts
-- Pero tendriamos que hacer esto cada vez que guardemos cambios. Entonces instalamos el nodemon (creo que es por node monitor.. como sass) y esto corre el archivo index.ts solito cada vez que guardamos cambios.
-- Instalamos nodemon npm i -D nodemon, en el json cambiamos la linea  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  }, en lugar de test escribimos "dev" y le damos el comando--> "dev": "nodemon --exec ts-node src/index.ts".. reemplazamos el test, creo que porque esto es para pruebas.. ahora cada vez que corremos npm run dev se ejecuta nodemon (va a estar mirando los cambios y ejecutando el comando "exec" ts-node src/index.ts todos los cambios van a disparar el comando)
+1.Backend (Node + Express)
+Define las rutas REST (/api/users, /api/tasks, etc.).
+Cada ruta maneja una acción (leer, crear, actualizar o borrar datos).
+Se conecta a PostgreSQL mediante un ORM (Sequelize, Prisma, etc.).
 
-  ⚙️ Contexto: TypeScript y Node no se entienden directamente
+2.Base de datos (PostgreSQL)
+Almacena los datos reales (usuarios, productos, etc.).
+El ORM traduce tus objetos JS a consultas SQL para leer o escribir aquí.
 
-Node.js (el motor del universo backend) solo entiende JavaScript.
-Cuando vos escribís en TypeScript (.ts), estás usando un lenguaje de alto nivel que agrega tipado, interfaces, decoradores, etc., pero que no puede ser ejecutado por Node directamente.
+3.Frontend (React)
+Consume esas rutas con fetch o axios.
+Muestra los datos al usuario y envía cambios (por ejemplo, al enviar un formulario).
 
-Entonces, antes de que Node pueda "leer" tu código TS, hay que traducirlo a JavaScript puro.
+// ⚙️ CONFIGURACIÓN INICIAL DEL PROYECTO REST API CON TYPESCRIPT Y NODE
+// --------------------------------------------------------------------
 
-💫 Ahí entra npx tsc
+// 1️⃣ CREACIÓN DEL PROYECTO BASE
+// - Acción: Crear la carpeta `rest_api_ts_server` y ejecutar `npm init`.
+// - Por qué: Inicializa un nuevo proyecto Node, generando `package.json`
+//   donde se registran dependencias y scripts.
+// - Luego: Instalar Express → `npm install express` para manejar rutas y peticiones HTTP.
+//   (Es el equivalente al “Big Bang” de Node, como `npm create vite@latest` lo es para React).
 
-npx tsc ejecuta el TypeScript Compiler (TSC).
-Su misión es:
+// --------------------------------------------------------------------
 
-“Traducir el universo TypeScript 🌌 al lenguaje que Node entiende: JavaScript ⚙️.”
+// 2️⃣ ARCHIVOS PRINCIPALES
+// - Acción: Crear `index.ts` (punto de entrada) y `server.ts` (configuración del servidor).
+// - Por qué: Separar el inicio de la app de su configuración hace el proyecto
+//   más modular, escalable y fácil de mantener.
 
-Cuando corrés ese comando, lo que hace es:
+// --------------------------------------------------------------------
 
-Buscar tu archivo tsconfig.json (la configuración del traductor).
+// 3️⃣ SOPORTE PARA TYPESCRIPT
+// - Acción: Instalar dependencias de desarrollo:
+//     npm i -D typescript ts-node
+// - Por qué: Node solo entiende JavaScript; TypeScript necesita un traductor (`tsc`)
+//   y un ejecutor (`ts-node`) para poder correr el código .ts.
+// - Extra: Crear un archivo `tsconfig.json` vacío para que Node reconozca archivos .ts.
+// - Ejecución manual del servidor:
+//     npx ts-node src/index.ts
 
-Leer todas las reglas ahí dentro:
+// --------------------------------------------------------------------
 
-Qué versión de JS debe generar.
+// 4️⃣ AUTOMATIZAR EL REINICIO DEL SERVIDOR
+// - Acción: Instalar `nodemon` y agregar un script en package.json:
+//     "scripts": { "dev": "nodemon --exec ts-node src/index.ts" }
+// - Por qué: Evita tener que reiniciar el servidor manualmente tras cada cambio.
+// - Resultado: Correr `npm run dev` mantiene el servidor activo y actualizando en tiempo real.
 
-En qué carpeta poner los archivos compilados. /dist para produccion y /src para desarrollo
+// --------------------------------------------------------------------
 
-Qué archivos ignorar.
+// 5️⃣ COMPILACIÓN TYPESCRIPT → JAVASCRIPT
+// - Acción: Ejecutar `npx tsc src/index.ts`.
+// - Por qué: Compila archivos .ts a .js para que Node pueda ejecutarlos.
+// - Nota: Eliminar los .js generados en /src para no mezclar archivos de desarrollo
+//   con los de producción (el código compilado irá a /dist). 
 
-Si usar módulos ES o CommonJS, etc.
+// --------------------------------------------------------------------
 
-Compilar todos tus .ts → .js dentro de una carpeta (normalmente /dist o /build).
-- Esto crea en src la version .js de index y server. Los eliminamos para no mezclar archivos de desarrollo con archivos de produccion. Porque mezclar .ts y .js genera caos en el espacio-tiempo 
-😅
-- Agregamos las reglas en el archivo tsconfig.json--> es configuracion "default" fijate en el archivo.-- a medida que agreamos configuraciones y ejecutamos npx tsc se van invocando esas configuraciones y cambia por ejemplo la carpeta dist.
-    🔹 compilerOptions
+// 6️⃣ CONFIGURACIÓN DEL COMPILADOR (tsconfig.json)
+// - Acción: Configurar reglas para la compilación:
+//     {
+//       "compilerOptions": {
+//         "outDir": "./dist",        // Carpeta para código compilado
+//         "rootDir": "./src",        // Carpeta de código fuente
+//         "lib": ["ESNext"],         // Funcionalidades modernas de JS
+//         "strict": false,           // Menos restricciones en tipado
+//         "sourceMap": true,         // Permite depurar .ts desde .js
+//         "esModuleInterop": true,   // Soporte para imports comunes
+//         "declaration": true        // Genera archivos .d.ts (tipos)
+//       },
+//       "include": ["src/**/*.ts"]
+//     }
+// - Por qué:
+//   - `/src` → código fuente en desarrollo.
+//   - `/dist` → código compilado para producción.
+//   - Facilita depuración (sourceMap), compatibilidad (esModuleInterop) y organización general.
+//   - Ejecutar npx tsc y ahi va a crear la carpeta dist.
 
-Estas opciones son las reglas que le decís al traductor TypeScript sobre cómo convertir tu universo .ts a .js.
+// --------------------------------------------------------------------
+
+// 💡 En resumen:
+//   npm init  → Crea el universo del proyecto Node.
+//   Express   → Le da forma al backend (maneja rutas y peticiones).
+//   TypeScript→ Traduce y tipa el lenguaje.
+//   Nodemon   → Mantiene el servidor vivo y actualizado.
+//   tsc       → Transforma el código .ts a .js para producción.
+
+
+⚙️ CONFIGURACION DEL SERVIDOR:
+- Se instala la dev dependency @types/express para que soporte Ts.
+- Usamos ThunderClient o Postman para probar manualmente los endpoints de nuestra API (son simuladores de peticiones HTTP). Mientras no tenemos una UI en React. EL navegador solo tiene naves de tipo GET y POST (si enviamos un formulario-> <form action='/' method='POST'), solo lee informacion y envia. Postman hay que instalarlo y ThunderClient es una extension de VsCode. NOs quedamos con ThunderClient para este proyecto. Simplemente haces una request y se ve directamente la respuesta.
+- Separamos las rutas a su propio archivo. router.ts de esa manera resumimos en server.use('/', router) todas las rutas que router.ts tiene.
+
+
+
