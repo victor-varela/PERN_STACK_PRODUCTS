@@ -17,6 +17,8 @@ Get--> pide informacion. traeme algo.. el codigo server.'verboHTTP' (get, post, 
 
 Ahora server.get - server.post, etc se RESUME EN SERVER.USE - donde pasamos el path y el handler router.
 
+“Para todas las rutas que empiecen con /api/products, usá las rutas definidas en router.”
+
 
 
 
