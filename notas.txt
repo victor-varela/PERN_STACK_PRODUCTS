@@ -35,7 +35,7 @@ Muestra los datos al usuario y envía cambios (por ejemplo, al enviar un formula
 //     npm i -D typescript ts-node
 // - Por qué: Node solo entiende JavaScript; TypeScript necesita un traductor (`tsc`)
 //   y un ejecutor (`ts-node`) para poder correr el código .ts.
-// - Extra: Crear un archivo `tsconfig.json` vacío para que Node reconozca archivos .ts.
+// - Extra: Crear un archivo `tsconfig.json` vacío para que Node reconozca archivos .ts. Luego se completara la configuración de ese archivo.
 // - Ejecución manual del servidor:
 //     npx ts-node src/index.ts
 
@@ -97,7 +97,9 @@ Muestra los datos al usuario y envía cambios (por ejemplo, al enviar un formula
 ⚙️ CONFIGURACION DE LA BASE DE DATOS: (PostgreSQL)
 - Usamos Render para alojar la API y DB en la nube. De esta manera sera accesible mas alla de mi local.--> En el panel de render hacemos NEW POSTGRESS y llenamos los datos (name) create Db--> nos da un connection string 'URL de conexion' para usar desde .env con OTRA dependencias: doteenv
 - Usamos Sequelize (ORM) para traducir los objetos TypeScript a SQL. Ejecutamos los npm de la documentacion. npm install --save sequelize y npm install --save pg pg-hstore # Postgres
+- Usamos Dbeaver para ver las tablas de la DB. En el icono de enchufe para arriba con un + dice PostgreSQL. Ahi llenamos los datos que nos da Render. (en el connection string tambien estan los datos. Host (es lo que esta despues de @ hasta .com- inicia con dpg) Database es lo que esta despues de .com/ Autenticacion dejar DatabaseNative. Password esta despues de : hasta @)- Le damos en probar conexion y va a aparecer un panel con nuestra DB. Ahi expandemos hasta ver los esquemas tablas, etc bieeennnnnn
 
+- Agregamos Colors para los mensajes en la consola. Ayuda a distinguir la informacion. npm install color--> ve la documentacion. es colors.aparecen los colores... Luego, todos los mensajes por consola los podemos estilizar.
 
 
 

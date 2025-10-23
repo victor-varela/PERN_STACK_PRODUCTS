@@ -1,11 +1,24 @@
 import express from "express";
+import colors from 'colors'
 import { router } from "./router";
+import { db } from "./config/db";
 const server = express();
 
-//Routing
+//2-Conecting DB- Sequelize / PostreSql / Render
+const connectDb = async () => {
+  try {
+    await db.authenticate();
+    db.sync()//para actualizar las tablas cada vez que se autentique
+    console.log(colors.blue("Connection has been established successfully."));
+  } catch (error) {
+    console.error(colors.red.bold("Unable to connect to the database:"), error);
+  }
+};
+
+connectDb();
+//1-Routing
 
 server.use("/api/products", router);
-
 
 export default server;
 
@@ -19,8 +32,8 @@ Ahora server.get - server.post, etc se RESUME EN SERVER.USE - donde pasamos el p
 
 “Para todas las rutas que empiecen con /api/products, usá las rutas definidas en router.”
 
-
-
+- Primero habiamos definido a server.use(path, router(handler)) y declaramos las rutas en el archivo router.ts. Despues inicializamos la DB. Por eso esta en el codigo ese orden /Connecting DB y Despues /Routing
+index maneja a --> Server maneja a --> Db
 
 
 */
