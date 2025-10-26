@@ -140,23 +140,26 @@ Muestra los datos al usuario y envía cambios (por ejemplo, al enviar un formula
 //   tsc       → Transforma el código .ts a .js para producción.
 
 
-⚙️ CONFIGURACION DEL SERVIDOR:
-- Se instala la dev dependency @types/express para que soporte Ts.
-- Usamos ThunderClient o Postman para probar manualmente los endpoints de nuestra API (son simuladores de peticiones HTTP). Mientras no tenemos una UI en React. EL navegador solo tiene naves de tipo GET y POST (si enviamos un formulario-> <form action='/' method='POST'), solo lee informacion y envia. Postman hay que instalarlo y ThunderClient es una extension de VsCode. NOs quedamos con ThunderClient para este proyecto. Simplemente haces una request y se ve directamente la respuesta.
-- En server.ts instaciamos express. const server= express().
-- Definimos las rutas (routing). Al principio con server.get- server.post, etc pero luego usamos router de express y reemplazamos server por router. Ese router lo importamos en server.ts
-- Separamos las rutas a su propio archivo. router.ts de esa manera resumimos en server.use('/', router) todas las rutas que router.ts tiene. el .use engloba todos los verbos HTTP.
+  ⚙️ CONFIGURACION DEL SERVIDOR:
+  - Se instala la dev dependency @types/express para que soporte Ts.
+  - Usamos ThunderClient o Postman para probar manualmente los endpoints de nuestra API (son simuladores de peticiones HTTP). Mientras no tenemos una UI en React. EL navegador solo tiene naves de tipo GET y POST (si enviamos un formulario-> <form action='/' method='POST'), solo lee informacion y envia. Postman hay que instalarlo y ThunderClient es una extension de VsCode. NOs quedamos con ThunderClient para este proyecto. Simplemente haces una request y se ve directamente la respuesta.
+  - En server.ts instaciamos express. const server= express().
+  - Definimos las rutas (routing). Al principio con server.get- server.post, etc pero luego usamos router de express y reemplazamos server por router. Ese router lo importamos en server.ts
+  - Separamos las rutas a su propio archivo. router.ts de esa manera resumimos en server.use('/', router) todas las rutas que router.ts tiene. el .use engloba todos los verbos HTTP.
 
-⚙️ CONFIGURACION DE LA BASE DE DATOS: (PostgreSQL)
-- Usamos Render para alojar la API y DB en la nube. De esta manera sera accesible mas alla de mi local.--> En el panel de render hacemos NEW POSTGRESS y llenamos los datos (name) create Db--> nos da un connection string 'URL de conexion' para usar desde .env con OTRA dependencias: doteenv
+  ⚙️ CONFIGURACION DE LA BASE DE DATOS: (PostgreSQL)
+  - Usamos Render para alojar la API y DB en la nube. De esta manera sera accesible mas alla de mi local.--> En el panel de render hacemos NEW POSTGRESS y llenamos los datos (name) create Db--> nos da un connection string 'URL de conexion' para usar desde .env con OTRA dependencias: doteenv
 
-- Usamos Sequelize (ORM) para traducir los objetos TypeScript a SQL. Ejecutamos los npm de la documentacion. npm install --save sequelize y npm install --save pg pg-hstore # Postgres. Mas adelante en el curso se instala npm i sequelize-typescript para tener soporte de Ts y se reemplaza la instancia de sequelize en db.ts --> import {Sequelize} from 'sequelize-typescript'
+  - Usamos Sequelize (ORM) para traducir los objetos TypeScript a SQL. Ejecutamos los npm de la documentacion. npm install --save sequelize y npm install --save pg pg-hstore # Postgres. Mas adelante en el curso se instala npm i sequelize-typescript para tener soporte de Ts y se reemplaza la instancia de sequelize en db.ts --> import {Sequelize} from 'sequelize-typescript'
 
-- Usamos Dbeaver para ver las tablas de la DB. En el icono de enchufe para arriba con un + dice PostgreSQL. Ahi llenamos los datos que nos da Render. (en el connection string tambien estan los datos. Host (es lo que esta despues de @ hasta .com- inicia con dpg) Database es lo que esta despues de .com/ Autenticacion dejar DatabaseNative. Password esta despues de : hasta @)- Le damos en probar conexion y va a aparecer un panel con nuestra DB. Ahi expandemos hasta ver los esquemas tablas, etc bieeennnnnn
+  - Usamos Dbeaver para ver las tablas de la DB. En el icono de enchufe para arriba con un + dice PostgreSQL. Ahi llenamos los datos que nos da Render. (en el connection string tambien estan los datos. Host (es lo que esta despues de @ hasta .com- inicia con dpg) Database es lo que esta despues de .com/ Autenticacion dejar DatabaseNative. Password esta despues de : hasta @)- Le damos en probar conexion y va a aparecer un panel con nuestra DB. Ahi expandemos hasta ver los esquemas tablas, etc bieeennnnnn
 
-- Agregamos Colors para los mensajes en la consola. Ayuda a distinguir la informacion. npm install color--> ve la documentacion. es colors.aparecen los colores... Luego, todos los mensajes por consola los podemos estilizar.
+  - Agregamos Colors para los mensajes en la consola. Ayuda a distinguir la informacion. npm install color--> ve la documentacion. es colors.aparecen los colores... Luego, todos los mensajes por consola los podemos estilizar.
 
-- Creamos el Modelo de Products. Esto es la tabla de productos. Esta tabla la hacemos con sequelize -ORM- es el traductor entre el codigo y PostgreSQL. Para ello creamos la carpeta models. Un modelo es un 'molde' es como debe ser la tabla. La tabla la crea sequelize traduciendo a SQL el codigo Ts. Para 'ver' la tabla se usa Dbeaver. El modelo esta SINCRONIZADO con las columnas de la DB. Por eso el db.sync() en server.ts
+  - Creamos el Modelo de Products. Esto es la tabla de productos. Esta tabla la hacemos con sequelize -ORM- es el traductor entre el codigo y PostgreSQL. Para ello creamos la carpeta models. Un modelo es un 'molde' es como debe ser la tabla. La tabla la crea sequelize traduciendo a SQL el codigo Ts. Para 'ver' la tabla se usa Dbeaver. El modelo esta SINCRONIZADO con las columnas de la DB. Por eso el db.sync() en server.ts
+
+  ⚙️ CREANDO FUNCIONES PARA INTERACTUAR CON LA DB
+  - Creamos la carpeta handlers --> product.ts : funciones que manejan el modelo Product. Ahi estaran las funciones que van a reemplazar (req, res) en router.ts
 
 
 
