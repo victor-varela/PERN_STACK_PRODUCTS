@@ -5,6 +5,7 @@ dotenv.config({ path: "./src/.env" });
 
 export const db = new Sequelize(process.env.DB_URL, {
   dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
+  models:[__dirname + '/../models/**/*.ts']
 });
 
 /*
@@ -21,4 +22,8 @@ db = sequelize
 - Se armo tremendo problema porque ya habia pusheado este archivo con los datos de la DB expuesto. Para arreglarlo estuve 2 dias con el chat y al final lo resolvi haciendo un git rebase y cuando salio el conflicto lei lo que proponia git e hice git add /src/config/db.ts (que es el archivo que estaba correcto) y luego git push force.. ahi se elimino el commit de github y ya no lo puede ver nadie.
 
 - Este archivo es, como dice su nombre, la CONFIGURACION de la DB. Para arrancar la conexion con la DB lo hacemos desde server.ts
+
+- Despues de crear el modelo Product en /models agrego la direccion a las opciones de la Db con: models:[__dirname + /../models/++/+.ts ] y me va a dar este error: TypeError: Cannot convert undefined or null to object. Por eso debemos agregar unas propiedades a tsconfig.json. 
+
+
 */
