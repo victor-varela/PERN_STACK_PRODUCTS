@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+import {Sequelize} from 'sequelize-typescript'
 import dotenv from "dotenv";
 
 dotenv.config({ path: "./src/.env" });
@@ -19,4 +19,6 @@ db = sequelize
 - Recuerda agregar en gitignore el .env --> crea el archivo en la raiz del proyecto .gitignore
 
 - Se armo tremendo problema porque ya habia pusheado este archivo con los datos de la DB expuesto. Para arreglarlo estuve 2 dias con el chat y al final lo resolvi haciendo un git rebase y cuando salio el conflicto lei lo que proponia git e hice git add /src/config/db.ts (que es el archivo que estaba correcto) y luego git push force.. ahi se elimino el commit de github y ya no lo puede ver nadie.
+
+- Este archivo es, como dice su nombre, la CONFIGURACION de la DB. Para arrancar la conexion con la DB lo hacemos desde server.ts
 */

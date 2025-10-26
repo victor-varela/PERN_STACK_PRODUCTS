@@ -3,6 +3,59 @@ Define las rutas REST (/api/users, /api/tasks, etc.).
 Cada ruta maneja una acción (leer, crear, actualizar o borrar datos).
 Se conecta a PostgreSQL mediante un ORM (Sequelize, Prisma, etc.).
 
+// 🧩 ¿Por qué usamos Express?
+
+// ⚙️ Express es un framework para Node.js que nos facilita crear un servidor HTTP.
+// Sirve como el "motor de comunicación" 🚦 entre el frontend (React) y la base de datos (PostgreSQL).
+
+// 🧠 Node.js por sí solo provee el entorno donde corre el código,
+// pero Express agrega una capa más amigable para:
+//  1️⃣ Definir rutas REST (GET, POST, PUT, DELETE).
+//  2️⃣ Manejar peticiones y respuestas fácilmente.
+//  3️⃣ Conectar la lógica del servidor con la base de datos.
+//  4️⃣ Organizar el código en módulos claros y mantenibles.
+
+// 📦 Sin Express, podríamos hacer lo mismo usando el módulo nativo 'http' de Node.js,
+// pero sería mucho más manual. Ejemplo:
+
+/*
+import http from 'http'
+
+const server = http.createServer((req, res) => {
+  if (req.url === '/' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify({ message: 'Hola desde Node puro 👋' }))
+  } else {
+    res.writeHead(404, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify({ error: 'Ruta no encontrada' }))
+  }
+})
+
+server.listen(4000, () => {
+  console.log('Servidor corriendo en http://localhost:4000')
+})
+*/
+
+// 😮 Como ves, sin Express tenemos que manejar manualmente:
+//   - Las cabeceras de respuesta (headers).
+//   - Los códigos de estado HTTP.
+//   - El enrutamiento (qué hacer según la URL y el método).
+
+// 🚀 En cambio, con Express basta con escribir:
+//
+/*
+import express from 'express'
+const server = express()
+
+server.get('/', (req, res) => {
+  res.json({ message: 'Hola desde Express 👋' })
+})
+
+server.listen(4000, () => console.log('Servidor Express en http://localhost:4000'))
+*/
+// Mucho más limpio, legible y fácil de escalar. 😎
+
+
 2.Base de datos (PostgreSQL)
 Almacena los datos reales (usuarios, productos, etc.).
 El ORM traduce tus objetos JS a consultas SQL para leer o escribir aquí.
@@ -96,10 +149,14 @@ Muestra los datos al usuario y envía cambios (por ejemplo, al enviar un formula
 
 ⚙️ CONFIGURACION DE LA BASE DE DATOS: (PostgreSQL)
 - Usamos Render para alojar la API y DB en la nube. De esta manera sera accesible mas alla de mi local.--> En el panel de render hacemos NEW POSTGRESS y llenamos los datos (name) create Db--> nos da un connection string 'URL de conexion' para usar desde .env con OTRA dependencias: doteenv
-- Usamos Sequelize (ORM) para traducir los objetos TypeScript a SQL. Ejecutamos los npm de la documentacion. npm install --save sequelize y npm install --save pg pg-hstore # Postgres
+
+- Usamos Sequelize (ORM) para traducir los objetos TypeScript a SQL. Ejecutamos los npm de la documentacion. npm install --save sequelize y npm install --save pg pg-hstore # Postgres. Mas adelante en el curso se instala npm i sequelize-typescript para tener soporte de Ts y se reemplaza la instancia de sequelize en db.ts --> import {Sequelize} from 'sequelize-typescript'
+
 - Usamos Dbeaver para ver las tablas de la DB. En el icono de enchufe para arriba con un + dice PostgreSQL. Ahi llenamos los datos que nos da Render. (en el connection string tambien estan los datos. Host (es lo que esta despues de @ hasta .com- inicia con dpg) Database es lo que esta despues de .com/ Autenticacion dejar DatabaseNative. Password esta despues de : hasta @)- Le damos en probar conexion y va a aparecer un panel con nuestra DB. Ahi expandemos hasta ver los esquemas tablas, etc bieeennnnnn
 
 - Agregamos Colors para los mensajes en la consola. Ayuda a distinguir la informacion. npm install color--> ve la documentacion. es colors.aparecen los colores... Luego, todos los mensajes por consola los podemos estilizar.
+
+- Creamos el Modelo de Products. Esto es la tabla de productos. Esta tabla la hacemos con sequelize -ORM- es el traductor entre el codigo y PostgreSQL. Para ello creamos la carpeta models. Un modelo es un 'molde' es como debe ser la tabla. La tabla la crea sequelize traduciendo a SQL el codigo Ts. Para 'ver' la tabla se usa Dbeaver. El modelo esta SINCRONIZADO con las columnas de la DB. Por eso el db.sync() en server.ts
 
 
 

@@ -35,5 +35,7 @@ Ahora server.get - server.post, etc se RESUME EN SERVER.USE - donde pasamos el p
 - Primero habiamos definido a server.use(path, router(handler)) y declaramos las rutas en el archivo router.ts. Despues inicializamos la DB. Por eso esta en el codigo ese orden /Connecting DB y Despues /Routing
 index maneja a --> Server maneja a --> Db
 
+- Este archivo arranca la DB y define la ruta base de la API.
+
 
 */
