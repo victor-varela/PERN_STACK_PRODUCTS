@@ -116,7 +116,8 @@ Muestra los datos al usuario y envía cambios (por ejemplo, al enviar un formula
 //       "compilerOptions": {
 //         "outDir": "./dist",        // Carpeta para código compilado
 //         "rootDir": "./src",        // Carpeta de código fuente
-//         "lib": ["ESNext"],         // Funcionalidades modernas de JS
+//         "lib": ["ESNext"],         // Funcionalidades modernas de JS - ESNext = EmmaScript Next
+                                                                          el mas reciente
 //         "strict": false,           // Menos restricciones en tipado
 //         "sourceMap": true,         // Permite depurar .ts desde .js
 //         "esModuleInterop": true,   // Soporte para imports comunes
@@ -129,6 +130,7 @@ Muestra los datos al usuario y envía cambios (por ejemplo, al enviar un formula
 //   - `/dist` → código compilado para producción.
 //   - Facilita depuración (sourceMap), compatibilidad (esModuleInterop) y organización general.
 //   - Ejecutar npx tsc y ahi va a crear la carpeta dist.
+//   - OJO A medida que se va construyendo el proyecto se van agregando configuraciones OJOc
 
 // --------------------------------------------------------------------
 
@@ -142,13 +144,16 @@ Muestra los datos al usuario y envía cambios (por ejemplo, al enviar un formula
 
   ⚙️ CONFIGURACION DEL SERVIDOR:
   - Se instala la dev dependency @types/express para que soporte Ts.
-  - Usamos ThunderClient o Postman para probar manualmente los endpoints de nuestra API (son simuladores de peticiones HTTP). Mientras no tenemos una UI en React. EL navegador solo tiene naves de tipo GET y POST (si enviamos un formulario-> <form action='/' method='POST'), solo lee informacion y envia. Postman hay que instalarlo y ThunderClient es una extension de VsCode. NOs quedamos con ThunderClient para este proyecto. Simplemente haces una request y se ve directamente la respuesta.
+  - Usamos ThunderClient o Postman para probar manualmente los endpoints de nuestra API (son simuladores de peticiones HTTP). Mientras no tenemos una UI en React. EL navegador solo tiene naves de tipo GET y POST (si enviamos un formulario-> <form action='/' method='POST'), solo lee informacion y envia. Postman hay que instalarlo y ThunderClient es una extension de VsCode. NOs quedamos con ThunderClient para este proyecto. Simplemente haces una request y se ve directamente la respuesta.-- USAMOS POSTMAN- ThunderClient es de pago ahora.
+
   - En server.ts instaciamos express. const server= express().
   - Definimos las rutas (routing). Al principio con server.get- server.post, etc pero luego usamos router de express y reemplazamos server por router. Ese router lo importamos en server.ts
   - Separamos las rutas a su propio archivo. router.ts de esa manera resumimos en server.use('/', router) todas las rutas que router.ts tiene. el .use engloba todos los verbos HTTP.
 
   ⚙️ CONFIGURACION DE LA BASE DE DATOS: (PostgreSQL)
-  - Usamos Render para alojar la API y DB en la nube. De esta manera sera accesible mas alla de mi local.--> En el panel de render hacemos NEW POSTGRESS y llenamos los datos (name) create Db--> nos da un connection string 'URL de conexion' para usar desde .env con OTRA dependencias: doteenv
+  - Usamos Render para alojar la API y DB en la nube. De esta manera sera accesible mas alla de mi local.--> En el panel de render hacemos NEW POSTGRESS y llenamos los datos (name)--> create Db--> nos da un connection string 'URL de conexion' para usar desde .env con OTRA dependencia: doteenv
+
+  - Creamos carpeta config y archivo db.ts.- Ahi establecemos conexion a traves de sequelize con Render
 
   - Usamos Sequelize (ORM) para traducir los objetos TypeScript a SQL. Ejecutamos los npm de la documentacion. npm install --save sequelize y npm install --save pg pg-hstore # Postgres. Mas adelante en el curso se instala npm i sequelize-typescript para tener soporte de Ts y se reemplaza la instancia de sequelize en db.ts --> import {Sequelize} from 'sequelize-typescript'
 
@@ -160,6 +165,8 @@ Muestra los datos al usuario y envía cambios (por ejemplo, al enviar un formula
 
   ⚙️ CREANDO FUNCIONES PARA INTERACTUAR CON LA DB
   - Creamos la carpeta handlers --> product.ts : funciones que manejan el modelo Product. Ahi estaran las funciones que van a reemplazar (req, res) en router.ts
+  - Para enviar datos al endpoints usamos POSTMAN.- Almacenamos las peticiones http en una nueva coleccion para mejor organización. -> en el panel Collection. Para enviar en postman es en "raw" - Json y escribes en json
+  - Te das cuenta que la configuración de tsconfig.json es vital para el proyecto, muchos errores que van apareciendo se deben a que hay que ir agregando "soporte".
 
 
 

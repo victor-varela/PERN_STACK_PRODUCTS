@@ -3,7 +3,7 @@ import { createProduct } from "./handlers/product";
 export const router = Router();
 
 router.get("/", (req, res) => {
-  res.json("Desde GET");
+  res.json("Desde GET postman");
 });
 
 //se reemplazo para codigo mas compacto (req,res)=>{} por su handler

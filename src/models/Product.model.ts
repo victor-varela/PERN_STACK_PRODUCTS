@@ -1,4 +1,4 @@
-import { Table, Column, DataType, Model } from "sequelize-typescript";
+import { Table, Column, DataType, Model, Default } from "sequelize-typescript";
 
 @Table({
   tableName: "products",
@@ -15,6 +15,7 @@ class Product extends Model {
     type: DataType.FLOAT(6, 2),
   })
   price: number;
+  @Default(true) //siempre al crear un producto esta disponible.
   @Column({
     type: DataType.BOOLEAN,
   })
@@ -25,7 +26,7 @@ export default Product;
 
 /*
 - Gracias a que tenemos Sequelize-typescript podemos usar los decoradores de sequelize @table @column, etc. Los decoradores en Sequelize describen la estructura del modelo,
-y Sequelize luego traduce eso a SQL (cuando sincroniza con la DB). Los decoradores son funciones.
+y Sequelize luego traduce eso a SQL (cuando sincroniza con la DB). Los decoradores son funciones. 
 
 - Sequelize se hizo con POO con clases-- React avanzo de clases a hooks
 

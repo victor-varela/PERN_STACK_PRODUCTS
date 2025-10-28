@@ -1,7 +1,7 @@
 import {Sequelize} from 'sequelize-typescript'
 import dotenv from "dotenv";
 
-dotenv.config({ path: "./src/.env" });
+dotenv.config({ path: "./src/.env" });//para inicializar dontenv
 
 export const db = new Sequelize(process.env.DB_URL, {
   dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },

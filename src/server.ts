@@ -2,7 +2,12 @@ import express from "express";
 import colors from 'colors'
 import { router } from "./router";
 import { db } from "./config/db";
+
+//Instancia de Express
 const server = express();
+
+//Middelware que permite leer JSON en el body
+server.use(express.json())
 
 //2-Conecting DB- Sequelize / PostreSql / Render
 const connectDb = async () => {
@@ -16,8 +21,10 @@ const connectDb = async () => {
 };
 
 connectDb();
+
 //1-Routing
 
+//Enlazamos las rutas principales
 server.use("/api/products", router);
 
 export default server;
