@@ -32,9 +32,9 @@ y Sequelize luego traduce eso a SQL (cuando sincroniza con la DB). Los decorador
 
 - EL @Column hay que asignarle un type sino Ts se queja. Por eso @Column({type: DataType.'tipo'})
 
--OJALDRE: segui los pasos del curso y sabia que esto se rompia cuando intentaba hacer la conexio con la DB segun los comentarios de los estudiantes, sin embargo lo hice como estaba en el curso y LEI el error que decia Error: No default export defined for file "Product.model" or export does not satisfy filename. --> entonces escribi export default Product en lugar de lo que tenia: export class Product ... y funciono. Leer los errores Victorino, leer los e rr o res
+-OJALDRE: segui los pasos del curso y sabia que esto se rompia cuando intentaba hacer la conexion con la DB segun los comentarios de los estudiantes, sin embargo lo hice como estaba en el curso y LEI el error que decia Error: No default export defined for file "Product.model" or export does not satisfy filename. --> entonces escribi export default Product en lugar de lo que tenia: export class Product ... y funciono. Leer los errores Victorino, leer los e rr o res
 
-- 
+- Para validar los datos que recibimos (es decir los req-> request) usamos la dependencia npm i express-validator. Esta tiene entre otras funciones 'check' y 'validationResult' -> ve la documentacion. 
 
 
 
