@@ -89,7 +89,7 @@ error: TypeError: Class constructor Model cannot be invoked without &#39;new&#39
 
 - Para validar los datos que recibimos (es decir los req-> request) usamos la dependencia npm i express-validator. Esta tiene entre otras funciones 'check' y 'validationResult' -> ve la documentacion (igual no esta exactamente como lo hace el profe.. ojo).  La validacionse puede hacer tanto aca mismo en el handler como en el router.
 
-- La funcion check es asincrona por eso va con AWAIT y al final necesita .run(req) 'si te paras arriba de run ves lo que es'. Las validaciones se recuperan en la funcion validationResult.
+- La funcion check es asincrona por eso va con AWAIT y al final necesita .run(req) 'si te paras arriba de run ves lo que es'. Las validaciones se recuperan en la funcion validationResult. Podemos anidar los metodos de validacion isNumeric(), notEmpty(), y al final el .run(req).
 
 
 
