@@ -1,29 +1,32 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import { createProduct } from "./handlers/product";
+import { createProduct, getProducts } from "./handlers/product";
 import { handleInputError } from "./middelware";
 export const router = Router();
 
-router.get("/", (req, res) => {
-  res.json("Desde GET postman");
-});
+
+//se reemplazo para codigo mas compacto (req,res)=>{} por su handler antes era router.get('/', (req, res)=>{res.json('desde get')}) --> getProducts
+
+router.get("/", getProducts);
 
 //se reemplazo para codigo mas compacto (req,res)=>{} por su handler
-router.post("/",
-   //Validacion : name - price
-     body("name").notEmpty().withMessage("El nombre no puede estar vacio"),//esto es un middleware
+router.post(
+  "/",
+  //Validacion : name - price
+  body("name").notEmpty().withMessage("El nombre no puede estar vacio"), //esto es un middleware
 
-     body("price")
-      .custom(value => value > 0)
-      .withMessage("Valor no valido")
-      .isNumeric()
-      .withMessage("Valor no valido")
-      .notEmpty()
-      .withMessage("El precio no puede estar vacio"),//esto es un middleware
+  body("price")
+    .custom(value => value > 0)
+    .withMessage("Valor no valido")
+    .isNumeric()
+    .withMessage("Valor no valido")
+    .notEmpty()
+    .withMessage("El precio no puede estar vacio"), //esto es un middleware
 
-      handleInputError,//esto es un middelware
-     
-  createProduct)//esto es un middleware
+  handleInputError, //esto es un middelware
+
+  createProduct
+); //esto es un middleware
 
 router.put("/", (req, res) => {
   res.json("Desde PUT");
@@ -88,6 +91,10 @@ Express interpreta esa línea como:
 4️⃣ Express pasa al siguiente middleware (body("price")...).
 5️⃣ Ese hace su validación y llama next().
 6️⃣ Finalmente llega a createProduct, donde se obtiene el resultado.
+
+- Una vez que ya creamos algunos productos (.post/ ) podemos escribir el codigo del endpoint .get (obtener productos.)
+
+
 
 
 

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Product from "../models/Product.model";
-import { check, validationResult } from "express-validator";
 
+//1- Escribimos el codigo de crear productos
 export const createProduct = async (req: Request, res: Response) => {
   //Crear nuevo producto:
 
@@ -20,9 +20,22 @@ export const createProduct = async (req: Request, res: Response) => {
   //instaciamos el modelo
   try {
     const product = await Product.create(req.body); // crea la instancia y almacena en Db. Esperamos la insercion en la Db y ya tenemos en la variable el id
-    
+
     //Retornamos la 'respuesta' res
     res.json({ data: product }); // es mas directo
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//2. Ahora que hemos creado producots podemos escribir el codigo para obtener productos
+export const getProducts = async (req: Request, res: Response) => {
+  try {
+    const products = await Product.findAll({
+     attributes:{exclude:['createdAt', 'updatedAt', 'availability']}
+    });
+
+    res.json({ data: products });
   } catch (error) {
     console.log(error);
   }
@@ -64,6 +77,7 @@ Se crea el producto en la base de datos
 Se responde a Postman
 
 ********
+- Todos los handlers estan en este archivo. .get -> obtenerProductos, .post-> crearProductos, etc..
 
 - Estas funciones (handlers- product.ts) reemplazan req, res de router.ts por eso las importamos de Express para tener autocompletado de Ts y no tener any.
 
@@ -90,10 +104,19 @@ error: TypeError: Class constructor Model cannot be invoked without &#39;new&#39
     .withMessage("El precio no puede estar vacio")
     .run(req); // .RUN(REQ) VA AL FINAL DEL CHECK
 
-    /* await check("name").notEmpty().withMessage("El nombre no puede estar vacio").run(req);
+    /* 
+    ⚙️ ¿Por qué usamos await check(...).run(req)?
+
+Porque .run(req) devuelve una Promise, y necesitamos esperar a que todas las validaciones terminen antes de leer los resultados con validationResult(req).
+
+Si no usás await, el código sigue ejecutándose y validationResult(req) puede correr antes de que las validaciones terminen, dando resultados inconsistentes (por ejemplo, errores que no aparecen o validaciones que no se ejecutan).
+    
+    
+    await check("name").notEmpty().withMessage("El nombre no puede estar vacio").run(req);
+
 significa:
 
-“Ejecuta la validación de name sobre req, espera a que termine y solo entonces continúa”. **
+“Ejecuta la validación de name sobre req, espera-await a que termine y solo entonces continúa”. **
 
   const result = validationResult(req);
 
@@ -112,6 +135,20 @@ significa:
   "esto no forma parte de la logica del negocio. El hanlder es para crear el producto por eso ese codigo puede ir en su propio middleware asi que lo movemos para que en el handler quede mas limpio. Lo movemos el index.ts de la carpeta middelware y lo llamamos en el Router.ts"
 
   -Finalmente se envuelve el codigo ya limpio, relacionado a lo que debe hacer esta funcion 'crear producto' en un try catch para tener control por errores que no sean de validacion.
+
+  - Para el metodo .findAll() se le pueden pasar opciones dentro de la funcion:
+      .findAll({
+        order:[
+
+          ['id', 'DESC'] ordena descendiente por Ids. Puedes usar 'price', 'DESC' etc y , limit 10
+
+        ]
+        })
+
+
+
+
+  - Si entras en la funcion .findAll({}) cuando abres llaves VsCode te muestra las opciones que tiene. Luego puedes buscar en la doc. https://sequelize.org/docs/v6/core-concepts/model-querying-basics/ y hacer ctrl + f 'order' y para excluir campos usa 'exclude' en la doc esta la sintaxis. ==  attributes:{exclude:['createdAt', 'updatedAt', 'availability']} queda mas legible y limpia la respuesta.
 
 
 */
