@@ -167,6 +167,7 @@ Muestra los datos al usuario y envía cambios (por ejemplo, al enviar un formula
   - Creamos la carpeta handlers --> product.ts : funciones que manejan el modelo Product. Ahi estaran las funciones que van a reemplazar (req, res) en router.ts
   - Para enviar datos al endpoints usamos POSTMAN.- Almacenamos las peticiones http en una nueva coleccion para mejor organización. -> en el panel Collection. Para enviar en postman es en "raw" - Json y escribes en json
   - Te das cuenta que la configuración de tsconfig.json es vital para el proyecto, muchos errores que van apareciendo se deben a que hay que ir agregando "soporte".
+  - Creamos la carpeta middelware en Src para separar validacion y dejar el handler limpio.
 
 
 

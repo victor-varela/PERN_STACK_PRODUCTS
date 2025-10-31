@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import colors from "colors";
 import Product from "../models/Product.model";
 import { check, validationResult } from "express-validator";
 
@@ -19,27 +18,14 @@ export const createProduct = async (req: Request, res: Response) => {
   //Forma 2 con .create
 
   //instaciamos el modelo
-  const product = await Product.create(req.body); // crea la instancia y almacena en Db. Esperamos la insercion en la Db y ya tenemos en la variable el id
-
-  //Validacion : name - price
-  await check("name").notEmpty().withMessage("El nombre no puede estar vacio").run(req);
-  await check("price")
-    .custom(value => value > 0)
-    .withMessage("Valor no valido")
-    .isNumeric()
-    .withMessage("Valor no valido")
-    .notEmpty()
-    .withMessage("El precio no puede estar vacio")
-    .run(req);
-
-  const result = validationResult(req);
-
-  if (!result.isEmpty()) {
-    return res.status(400).json({ errors: result.array() }); //status(400) para indicar error
+  try {
+    const product = await Product.create(req.body); // crea la instancia y almacena en Db. Esperamos la insercion en la Db y ya tenemos en la variable el id
+    
+    //Retornamos la 'respuesta' res
+    res.json({ data: product }); // es mas directo
+  } catch (error) {
+    console.log(error);
   }
-
-  //Retornamos
-  res.json({ data: product }); // es mas directo
 };
 
 /*
@@ -91,7 +77,41 @@ error: TypeError: Class constructor Model cannot be invoked without &#39;new&#39
 
 - La funcion check es asincrona por eso va con AWAIT y al final necesita .run(req) 'si te paras arriba de run ves lo que es'. Las validaciones se recuperan en la funcion validationResult. Podemos anidar los metodos de validacion isNumeric(), notEmpty(), y al final el .run(req).
 
+- Si hacemos la validacion en este archivo (handler) quedaria asi: 
 
+      //Validacion : name - price
+  await check("name").notEmpty().withMessage("El nombre no puede estar vacio").run(req) // .RUN(REQ) VA AL FINAL DEL CHECK;
+  await check("price")
+    .custom(value => value > 0)
+    .withMessage("Valor no valido")
+    .isNumeric()
+    .withMessage("Valor no valido")
+    .notEmpty()
+    .withMessage("El precio no puede estar vacio")
+    .run(req); // .RUN(REQ) VA AL FINAL DEL CHECK
+
+    /* await check("name").notEmpty().withMessage("El nombre no puede estar vacio").run(req);
+significa:
+
+“Ejecuta la validación de name sobre req, espera a que termine y solo entonces continúa”. **
+
+  const result = validationResult(req);
+
+  if (!result.isEmpty()) {
+    return res.status(400).json({ errors: result.array() }); //status(400) para indicar error
+  }
+
+  - Nos llevamos el codigo de validacion al Router y ahi se hacen algunos cambios, no se usa check sino body, no hace falta el await, entre otros
+
+  - Luego el hanlder quedaria con este codigo medio 'colgado': 
+      const result = validationResult(req)
+
+      if(!result.isEmpty()){
+        return ....
+      }
+  "esto no forma parte de la logica del negocio. El hanlder es para crear el producto por eso ese codigo puede ir en su propio middleware asi que lo movemos para que en el handler quede mas limpio. Lo movemos el index.ts de la carpeta middelware y lo llamamos en el Router.ts"
+
+  -Finalmente se envuelve el codigo ya limpio, relacionado a lo que debe hacer esta funcion 'crear producto' en un try catch para tener control por errores que no sean de validacion.
 
 
 */
