@@ -32,10 +32,26 @@ export const createProduct = async (req: Request, res: Response) => {
 export const getProducts = async (req: Request, res: Response) => {
   try {
     const products = await Product.findAll({
-     attributes:{exclude:['createdAt', 'updatedAt', 'availability']}
+      attributes: { exclude: ["createdAt", "updatedAt", "availability"] },
     });
 
     res.json({ data: products });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//3. Obtener un producto por su ID
+export const getProductById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByPk(id);
+
+    if (!product) {
+      return res.status(400).json({ error: "Product not found" });
+    }
+
+    res.json({ data: product });
   } catch (error) {
     console.log(error);
   }
@@ -150,5 +166,8 @@ significa:
 
   - Si entras en la funcion .findAll({}) cuando abres llaves VsCode te muestra las opciones que tiene. Luego puedes buscar en la doc. https://sequelize.org/docs/v6/core-concepts/model-querying-basics/ y hacer ctrl + f 'order' y para excluir campos usa 'exclude' en la doc esta la sintaxis. ==  attributes:{exclude:['createdAt', 'updatedAt', 'availability']} queda mas legible y limpia la respuesta.
 
+  - Para la funcion getProductById: nos valemos del routing dinamico. La request envia en la URL una variable 'id' que va en '/:id' despues de : se guarda esa variable y se RECUPERA con PARAMS (estas son funciones de express) entonces req.params tiene las variables que hemos definido el router. Cuando haces req.paramas. Ts te muestra las variables que tienes: id
+
+  - Luego, usamos el metodo findByPk de sequelize y le pasamos el id que recuperamos de la URL. Validamos si encuentra o no el id --> if(!product) y retornamos la respuesta.
 
 */

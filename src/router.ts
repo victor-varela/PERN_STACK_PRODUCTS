@@ -1,13 +1,26 @@
-import { Router } from "express";
-import { body } from "express-validator";
-import { createProduct, getProducts } from "./handlers/product";
+import { request, Router } from "express";
+import { body, param } from "express-validator";
+import { createProduct, getProductById, getProducts } from "./handlers/product";
 import { handleInputError } from "./middelware";
 export const router = Router();
 
-
 //se reemplazo para codigo mas compacto (req,res)=>{} por su handler antes era router.get('/', (req, res)=>{res.json('desde get')}) --> getProducts
 
+//Obtener todos los productos
 router.get("/", getProducts);
+
+//Obtener un producto por su Id.-> Usamos el routing dinamico de Express :id-> se nombra id por convencion
+router.get(
+  "/:id",
+
+  //Validacion Id tiene que ser un numero. Como es routing dinamico usamos param en lugar de body
+  param("id").isInt().withMessage("Id no es valido"), //esto es un middelware por eso ,
+
+  //Invocamos nuestro custom middelware que maneja errores
+  handleInputError,
+
+  getProductById
+);
 
 //se reemplazo para codigo mas compacto (req,res)=>{} por su handler
 router.post(
@@ -82,6 +95,8 @@ Express interpreta esa línea como:
 // 👉 Resultado: mejor organización, menos código repetido,
 //    y validaciones más declarativas por cada endpoint.
 
+- Usamos la funcion handleInputError como un middelware que llamamos aparte (Es reutilizable) y ahi esta el codigo de validationResult.
+
 
 🔁 3. Flujo real de ejecución
 
@@ -94,7 +109,7 @@ Express interpreta esa línea como:
 
 - Una vez que ya creamos algunos productos (.post/ ) podemos escribir el codigo del endpoint .get (obtener productos.)
 
-
+- Ya que podemos obtener TODOS los productos, avanzamos con una NUEVA RUTA: router.get('/:id')-> para obtener un producto por su id. Usamos el routing dinamico de express donde lo que va despues de : es una variable que creamos (por convencion la nombramos id) y para recuperarla usamos req.params. Ts nos muestra las variables que estan dentro de params. Tenemos que validar que el id sea un numero para evitar que alguien en la URL escriba cualquier cosa y rompa la aplicacion.
 
 
 
