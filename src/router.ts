@@ -29,9 +29,9 @@ router.post(
   body("name").notEmpty().withMessage("El nombre no puede estar vacio"), //esto es un middleware
 
   body("price")
-    .custom(value => value > 0)
-    .withMessage("Valor no valido")
-    .isNumeric()
+    .isFloat({ gt: 0 })
+    .withMessage("El precio debe ser un número mayor a 0")
+    .toFloat() // convierte el string numérico a número real
     .withMessage("Valor no valido")
     .notEmpty()
     .withMessage("El precio no puede estar vacio"), //esto es un middleware
@@ -53,8 +53,9 @@ router.put(
     .withMessage("El nombre no puede estar vacio"),
 
   body("price")
-    .custom(value => value > 0)
-    .withMessage("Valor no valido")
+    .isFloat({ gt: 0 })
+    .withMessage("El precio debe ser un número mayor a 0")
+    .toFloat() // convierte el string numérico a número real
     .notEmpty()
     .withMessage("El precio no puede estar vacio")
     .isNumeric()
@@ -66,8 +67,8 @@ router.put(
     .notEmpty()
     .withMessage("El campo no puede estar vacio"),
 
-    //Prevenimos los errors
-    handleInputError,
+  //Prevenimos los errors
+  handleInputError,
 
   //Usamos el hanlder
   updateProduct
@@ -145,6 +146,10 @@ Express interpreta esa línea como:
 
 ✅ Porque estamos usando PUT, que semánticamente representa una actualización completa del producto.
 De esta forma, nos aseguramos de que todos los datos del recurso sigan siendo válidos después de reemplazarlos.
+En el campo precio reemplazo el codigo del profesor por :
+   .isFloat({ gt: 0 }).withMessage("El precio debe ser un número mayor a 0")
+  .toFloat() // convierte el string numérico a número real
+  para prevenir que un strign se cuele en la Db.
 
 
 
