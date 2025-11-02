@@ -164,11 +164,19 @@ Muestra los datos al usuario y envía cambios (por ejemplo, al enviar un formula
   - Creamos el Modelo de Products. Esto es la tabla de productos. Esta tabla la hacemos con sequelize -ORM- es el traductor entre el codigo y PostgreSQL. Para ello creamos la carpeta models. Un modelo es un 'molde' es como debe ser la tabla. La tabla la crea sequelize traduciendo a SQL el codigo Ts. Para 'ver' la tabla se usa Dbeaver. El modelo esta SINCRONIZADO con las columnas de la DB. Por eso el db.sync() en server.ts
 
   ⚙️ CREANDO FUNCIONES PARA INTERACTUAR CON LA DB
+
+  **POSTMAN: fiajte como hiciste las anteriores, guardas una coleccion por proyecto y vas guardando las request --> new request ***
+
+
+  
   - Creamos la carpeta handlers --> product.ts : funciones que manejan el modelo Product. Ahi estaran las funciones que van a reemplazar (req, res) en router.ts
   - Para enviar datos al endpoints usamos POSTMAN.- Almacenamos las peticiones http en una nueva coleccion para mejor organización. -> en el panel Collection. Para enviar en postman es en "raw" - Json y escribes en json
   - Te das cuenta que la configuración de tsconfig.json es vital para el proyecto, muchos errores que van apareciendo se deben a que hay que ir agregando "soporte".
   - Creamos la carpeta middelware en Src para separar validacion y dejar el handler limpio.7
   - Usamos el routing dinamico de Express para buscar por Id. Creamos el endpoint que va a enviar en la URL el id que buscamos.
+
+
+
 
 
 

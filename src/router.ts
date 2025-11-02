@@ -1,6 +1,6 @@
 import { request, Router } from "express";
 import { body, param } from "express-validator";
-import { createProduct, getProductById, getProducts, updateProduct } from "./handlers/product";
+import { createProduct, getProductById, getProducts, updateAvailability, updateProduct } from "./handlers/product";
 import { handleInputError } from "./middelware";
 export const router = Router();
 
@@ -74,9 +74,12 @@ router.put(
   updateProduct
 );
 
-router.patch("/", (req, res) => {
-  res.json("Desde PATCH");
-});
+//Para modificar un solo campo: Availability
+router.patch("/:id", 
+
+
+  updateAvailability
+);
 
 router.delete("/", (req, res) => {
   res.json("Desde DELETE");
@@ -145,11 +148,15 @@ Express interpreta esa línea como:
 “¿Por qué agregamos validación para todos los campos en el router?”
 
 ✅ Porque estamos usando PUT, que semánticamente representa una actualización completa del producto.
-De esta forma, nos aseguramos de que todos los datos del recurso sigan siendo válidos después de reemplazarlos.
+De esta forma, nos aseguramos de que todos los datos del recurso sigan siendo válidos después de reemplazarlos. Si no hacemos esto y el usuario envia un Put con solo un campo modificado ej: price, todo ese objeto va a quedar solo con el price modificado, name y availability seran eliminados porque PUT reemplaza TODO por lo que se envia.
+
+
 En el campo precio reemplazo el codigo del profesor por :
    .isFloat({ gt: 0 }).withMessage("El precio debe ser un número mayor a 0")
   .toFloat() // convierte el string numérico a número real
   para prevenir que un strign se cuele en la Db.
+
+- Para actualizar solamente availability usamos un peticion vacia en postman, porque internamente estamos alternando el valor de availability.
 
 
 

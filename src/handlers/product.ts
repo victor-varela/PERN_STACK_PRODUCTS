@@ -57,7 +57,7 @@ export const getProductById = async (req: Request, res: Response) => {
   }
 };
 
-//4. Actualizar un producto
+//4. Actualizar un producto Completo
 export const updateProduct = async (req: Request, res: Response) => {
   try {
     //Obtenemos el producto
@@ -70,8 +70,34 @@ export const updateProduct = async (req: Request, res: Response) => {
     }
 
     //Actualizar -> usamos metodo update de Sequelize con el body
-   await product.update(req.body)
+    await product.update(req.body);
 
+    res.json({ data: product });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//5. Actualizar un solo campo del producto
+export const updateAvailability = async (req: Request, res: Response) => {
+  try {
+    //Encontramos el producto
+    const { id } = req.params;
+
+    const product = await Product.findByPk(id);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    // 3️⃣ Alternamos el valor actual de "availability"
+    // ⚙️ 'dataValues' es un objeto interno de Sequelize que contiene los valores actuales del registro (las columnas de la tabla).
+    // Al acceder a product.dataValues.availability obtenemos el valor almacenado en la base de datos,
+    // y al asignar product.availability = ... actualizamos la propiedad del modelo antes de guardarla.
+    product.availability = !product.dataValues.availability;
+
+    //Guardamos en DB
+    await product.save();
+    
     res.json({data:product});
   } catch (error) {
     console.log(error);
