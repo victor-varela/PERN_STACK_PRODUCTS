@@ -48,10 +48,31 @@ export const getProductById = async (req: Request, res: Response) => {
     const product = await Product.findByPk(id);
 
     if (!product) {
-      return res.status(400).json({ error: "Product not found" });
+      return res.status(404).json({ error: "Product not found" });
     }
 
     res.json({ data: product });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//4. Actualizar un producto
+export const updateProduct = async (req: Request, res: Response) => {
+  try {
+    //Obtenemos el producto
+    const { id } = req.params;
+    const product = await Product.findByPk(id);
+
+    //Aseguramos que exista
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    //Actualizar -> usamos metodo update de Sequelize con el body
+   await product.update(req.body)
+
+    res.json({data:product});
   } catch (error) {
     console.log(error);
   }
@@ -169,5 +190,7 @@ significa:
   - Para la funcion getProductById: nos valemos del routing dinamico. La request envia en la URL una variable 'id' que va en '/:id' despues de : se guarda esa variable y se RECUPERA con PARAMS (estas son funciones de express) entonces req.params tiene las variables que hemos definido el router. Cuando haces req.paramas. Ts te muestra las variables que tienes: id
 
   - Luego, usamos el metodo findByPk de sequelize y le pasamos el id que recuperamos de la URL. Validamos si encuentra o no el id --> if(!product) y retornamos la respuesta.
+
+  - Actualizar un producto: seguimos desarrollando el CRUD- en ese orden-. 
 
 */

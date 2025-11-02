@@ -1,6 +1,6 @@
 import { request, Router } from "express";
 import { body, param } from "express-validator";
-import { createProduct, getProductById, getProducts } from "./handlers/product";
+import { createProduct, getProductById, getProducts, updateProduct } from "./handlers/product";
 import { handleInputError } from "./middelware";
 export const router = Router();
 
@@ -22,7 +22,7 @@ router.get(
   getProductById
 );
 
-//se reemplazo para codigo mas compacto (req,res)=>{} por su handler
+//Crear un producto. Se reemplazo para codigo mas compacto (req,res)=>{} por su handler
 router.post(
   "/",
   //Validacion : name - price
@@ -41,9 +41,12 @@ router.post(
   createProduct
 ); //esto es un middleware
 
-router.put("/", (req, res) => {
-  res.json("Desde PUT");
-});
+//Actualizar un producto
+router.put("/:id", 
+
+  //Usamos el hanlder
+  updateProduct
+);
 
 router.patch("/", (req, res) => {
   res.json("Desde PATCH");
