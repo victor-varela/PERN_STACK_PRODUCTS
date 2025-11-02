@@ -191,6 +191,6 @@ significa:
 
   - Luego, usamos el metodo findByPk de sequelize y le pasamos el id que recuperamos de la URL. Validamos si encuentra o no el id --> if(!product) y retornamos la respuesta.
 
-  - Actualizar un producto: seguimos desarrollando el CRUD- en ese orden-. 
+  - Actualizar un producto: seguimos desarrollando el CRUD- en ese orden-. Usamos el metodo update de sequelize. Este metodo actualiza todo el objeto -> si solo cambiamos un campo actuliza un solo campo. Si queremos asegurarnos que cada actualizacion tenga todos los campos validos agregamos la validacion en el router.
 
 */

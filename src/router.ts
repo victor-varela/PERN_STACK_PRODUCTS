@@ -42,7 +42,32 @@ router.post(
 ); //esto es un middleware
 
 //Actualizar un producto
-router.put("/:id", 
+router.put(
+  "/:id",
+
+  //Validacion
+  body("name")
+    .isString()
+    .withMessage("El nombre no es valido")
+    .notEmpty()
+    .withMessage("El nombre no puede estar vacio"),
+
+  body("price")
+    .custom(value => value > 0)
+    .withMessage("Valor no valido")
+    .notEmpty()
+    .withMessage("El precio no puede estar vacio")
+    .isNumeric()
+    .withMessage("El precio no es valido"),
+
+  body("availability")
+    .isBoolean()
+    .withMessage("Valor no valido")
+    .notEmpty()
+    .withMessage("El campo no puede estar vacio"),
+
+    //Prevenimos los errors
+    handleInputError,
 
   //Usamos el hanlder
   updateProduct
@@ -113,6 +138,13 @@ Express interpreta esa línea como:
 - Una vez que ya creamos algunos productos (.post/ ) podemos escribir el codigo del endpoint .get (obtener productos.)
 
 - Ya que podemos obtener TODOS los productos, avanzamos con una NUEVA RUTA: router.get('/:id')-> para obtener un producto por su id. Usamos el routing dinamico de express donde lo que va despues de : es una variable que creamos (por convencion la nombramos id) y para recuperarla usamos req.params. Ts nos muestra las variables que estan dentro de params. Tenemos que validar que el id sea un numero para evitar que alguien en la URL escriba cualquier cosa y rompa la aplicacion.
+
+- Actualizar un producto: se hacen 2 cosas en 1. Obtener el producto, y actualizar. Agregamos validacion para el campo availability por las dudas porque el usuario podria cambiar o escribir cualquier cosa en ese campo. Ya no esta por default como en la creacion de producto. 
+
+“¿Por qué agregamos validación para todos los campos en el router?”
+
+✅ Porque estamos usando PUT, que semánticamente representa una actualización completa del producto.
+De esta forma, nos aseguramos de que todos los datos del recurso sigan siendo válidos después de reemplazarlos.
 
 
 
