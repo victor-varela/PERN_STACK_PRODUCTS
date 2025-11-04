@@ -57,7 +57,7 @@ export const getProductById = async (req: Request, res: Response) => {
   }
 };
 
-//4. Actualizar un producto Completo
+//4. Actualizar un producto Completo -> .update()
 export const updateProduct = async (req: Request, res: Response) => {
   try {
     //Obtenemos el producto
@@ -97,8 +97,28 @@ export const updateAvailability = async (req: Request, res: Response) => {
 
     //Guardamos en DB
     await product.save();
-    
-    res.json({data:product});
+
+    res.json({ data: product });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//6. Borrar un producto--> .destroy()
+export const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    //Buscamos el producto
+    const { id } = req.params;
+    const product = await Product.findByPk(id);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    //Eliminamos --> metodo destroy de sequelize
+    await product.destroy();
+
+    //Respondemos
+    res.json({ data: "Producto eliminado" }); //por convencion usamos data en las respuestas finales
   } catch (error) {
     console.log(error);
   }
@@ -218,5 +238,39 @@ significa:
   - Luego, usamos el metodo findByPk de sequelize y le pasamos el id que recuperamos de la URL. Validamos si encuentra o no el id --> if(!product) y retornamos la respuesta.
 
   - Actualizar un producto: seguimos desarrollando el CRUD- en ese orden-. Usamos el metodo update de sequelize. Este metodo actualiza todo el objeto -> si solo cambiamos un campo actuliza un solo campo. Si queremos asegurarnos que cada actualizacion tenga todos los campos validos agregamos la validacion en el router.
+
+  - Borrar un producto: Aca estamos borrando 'fisicamente' en otros proyectos se crea otra columna como 'active'= true/false para hacer un borrado 'logico'. La version V6 de Sequelize permite la creacion de tablas paranoid 'si, paranoicas.. jeje' que ya incluyen la funcion de soft y hard-deleted. 
+
+
+** En el Modelo quedaria algo asi:
+
+import { Table, Column, Model, DataType } from "sequelize-typescript";
+
+@Table({
+  tableName: "products",
+  paranoid: true     // 🔥 activa soft delete -> crea deletedAt
+})
+
+Y el handler par RESTAURAR datos seria: - un PATCH
+
+// PATCH /api/products/restore/:id
+export const restoreProduct = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    // Buscamos también entre los "paranoid: false" (incluye eliminados)
+    const product = await Product.findByPk(id, { paranoid: false });
+
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    await product.restore(); // 🔥 restaura el registro (pone deletedAt = NULL)
+
+    res.json({ message: "Product restored successfully" });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 */

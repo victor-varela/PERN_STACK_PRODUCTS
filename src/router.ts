@@ -70,13 +70,18 @@ router.put(
   //Prevenimos los errors
   handleInputError,
 
-  //Usamos el hanlder
+  //Usamos el handler
   updateProduct
 );
 
 //Para modificar un solo campo: Availability
-router.patch("/:id", 
+router.patch(
+  "/:id",
+  //Validamos el param
+  param("id").isInt().withMessage("Id no valido"),
 
+  //Usamos nuestro middelware de errores
+  handleInputError,
 
   updateAvailability
 );
