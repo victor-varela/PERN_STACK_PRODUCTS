@@ -166,8 +166,6 @@ Muestra los datos al usuario y envía cambios (por ejemplo, al enviar un formula
   ⚙️ CREANDO FUNCIONES PARA INTERACTUAR CON LA DB
 
   **POSTMAN: fiajte como hiciste las anteriores, guardas una coleccion por proyecto y vas guardando las request --> new request ***
-
-
   
   - Creamos la carpeta handlers --> product.ts : funciones que manejan el modelo Product. Ahi estaran las funciones que van a reemplazar (req, res) en router.ts
   - Para enviar datos al endpoints usamos POSTMAN.- Almacenamos las peticiones http en una nueva coleccion para mejor organización. -> en el panel Collection. Para enviar en postman es en "raw" - Json y escribes en json
@@ -176,7 +174,43 @@ Muestra los datos al usuario y envía cambios (por ejemplo, al enviar un formula
   - Usamos el routing dinamico de Express para buscar por Id. Creamos el endpoint que va a enviar en la URL el id que buscamos.
 
 
+⚙️ TESTING: JEST Y SUPERTEST
+ - Unit Testing: verifica partes individuales del codigo.
+ - Integration Testing: verificar que 2 o mas piezas del codigo funcionen.
 
+ * 1. Jest → Test Runner
+ *    - Ejecuta, organiza y evalúa los tests.
+ *    - Permite usar funciones como `describe`, `it`, `test` y `expect`.
+ *    - Se encarga de mostrar los resultados, manejar mocks, spies y coverage.
+      - no sabe nada sobre HTTP o APIs — solo ejecuta y evalúa tus tests.
+ *
+ * 2. Supertest → Cliente HTTP simulado
+ *    - Envía peticiones HTTP simuladas (GET, POST, PUT, DELETE...) a tu API Express.
+ *    - No necesita que el servidor esté escuchando en un puerto real(no usa Render, ni Postman, ni nada externo).
+ *    - Permite verificar código de estado, cabeceras y contenido de respuesta.
+ *
+ * Relación entre ambos:
+ *    - Jest ejecuta los tests.
+ *    - Supertest se usa dentro de esos tests para probar los endpoints.
 
+- Instalamos las dependencias: Supertest--> npm i -D supertest @types/supertest jest @types/jest ts-jest
+
+Sin @types/jest, TypeScript marcaría error en funciones como describe, it, o expect.
+
+Sin @types/supertest, no sabría qué tipo devuelve request(app).get('/').
+
+TS-JEST:
+
+ts-jest es un preprocesador que le permite a Jest entender y ejecutar archivos .ts directamente, sin que tengas que compilar antes con tsc.
+
+Funciona así:
+
+Jest ve un archivo .ts
+
+ts-jest lo transforma internamente a JavaScript usando la configuración de tu tsconfig.json
+
+Y recién ahí Jest lo ejecuta.
+
+Sin ts-jest, Jest solo puede correr archivos .js.
 
 
