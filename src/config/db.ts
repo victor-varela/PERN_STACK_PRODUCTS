@@ -5,7 +5,8 @@ dotenv.config({ path: "./src/.env" });//para inicializar dontenv
 
 export const db = new Sequelize(process.env.DB_URL, {
   dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
-  models:[__dirname + '/../models/**/*.ts']
+  models:[__dirname + '/../models/**/*.ts'],
+  logging:false
 });
 
 /*
@@ -24,6 +25,8 @@ db = sequelize
 - Este archivo es, como dice su nombre, la CONFIGURACION de la DB. Para arrancar la conexion con la DB lo hacemos desde server.ts
 
 - Despues de crear el modelo Product en /models agrego la direccion a las opciones de la Db con: models:[__dirname + /../models/++/+.ts ] y me va a dar este error: TypeError: Cannot convert undefined or null to object. Por eso debemos agregar unas propiedades a tsconfig.json. 
+
+- Se agrega loggin:false para evitar errores en el test.
 
 
 */

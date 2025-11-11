@@ -213,4 +213,21 @@ Y recién ahí Jest lo ejecuta.
 
 Sin ts-jest, Jest solo puede correr archivos .js.
 
+- Ejecutamos npx ts-jest config:init --> es una forma rápida de crear automáticamente el archivo de configuración de Jest adaptado a TypeScript.
 
+- Jest tiene 3 formas de encontrar los archivos donde estan las pruebas: archivo .test.js archivo .spec.js o archivos dentro de la carpeta __tests__ (usamos esta ultima forma). Creamos la carpeta __tests__ en src y dentro el archivo server.test.ts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+===***AL FINAL RECUERDA HACER UN RESUMEN DEL tsconfig.JSON CON AI PARA SABER QUE HACE CADA COSA===***

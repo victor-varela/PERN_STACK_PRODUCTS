@@ -14,7 +14,7 @@ const connectDb = async () => {
   try {
     await db.authenticate();
     db.sync()//para actualizar las tablas cada vez que se autentique
-    console.log(colors.blue("Connection has been established successfully."));
+    // console.log(colors.blue("Connection has been established successfully."));// se comenta para evitar error en el Test por el console.log
   } catch (error) {
     console.error(colors.red.bold("Unable to connect to the database:"), error);
   }
@@ -26,6 +26,11 @@ connectDb();
 
 //Enlazamos las rutas principales
 server.use("/api/products", router);
+
+//Creamos una ruta para Test
+server.get('/api', (req, res)=>{
+  res.json({"msg":"Desde API"})
+})
 
 export default server;
 
