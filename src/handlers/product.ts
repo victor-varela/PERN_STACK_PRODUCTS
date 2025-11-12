@@ -22,7 +22,7 @@ export const createProduct = async (req: Request, res: Response) => {
     const product = await Product.create(req.body); // crea la instancia y almacena en Db. Esperamos la insercion en la Db y ya tenemos en la variable el id
 
     //Retornamos la 'respuesta' res
-    res.json({ data: product }); // es mas directo
+    res.status(201).json({ data: product }); // es mas directo. 201 convencion http para 'creacion'--> doc en MDN-> http response status codes
   } catch (error) {
     console.log(error);
   }
@@ -272,5 +272,7 @@ export const restoreProduct = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
+
+- Para hacer test de este archivo, creamos la carpeta __test__ y dentro el product.test.ts--> es la forma ordenada.
 
 */

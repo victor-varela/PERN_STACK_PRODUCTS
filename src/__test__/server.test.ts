@@ -7,9 +7,17 @@ describe('GET/api', ()=>{
     it('should send back a json response', async ()=>{
         const response = await request(server).get('/api')
 
+        //Se valida lo que debe hacer
+
         expect(response.status).toBe(200)
         expect(response.headers['content-type']).toMatch(/json/)
         expect(response.body.msg).toBe('Desde API')
+
+        //Se valida tambien por la contraria, lo que no debe hacer --> not 'sin parentesis'
+        expect(response.status).not.toBe(404)
+        expect(response.body.msg).not.toBe('desde api') //en minusculas...
+        
+
         
     })
 })
@@ -57,10 +65,6 @@ quedaria asi===>  "scripts": {
 
 👉 Sí, pero solo como test de conexión o “smoke test”.
 
-Te explico:
-
-En el contexto de tu app (una API REST con productos), este test no valida lógica de negocio.
-No verifica nada sobre productos, ni la base de datos, ni validaciones.
 
 Pero sirve como test inicial para comprobar que:
 
