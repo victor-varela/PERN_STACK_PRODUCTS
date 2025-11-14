@@ -3,9 +3,56 @@ import server from "../../server";
 
 //Probamos el endpoint de crear productos
 describe("POST /api/products", () => {
+  //simulamos crear un producto vacio y probamos la validacion
+  it("should display validation errors", async () => {
+    const response = await request(server).post("/api/products").send({});
+
+    //que esperamos?
+    expect(response.status).toBe(400); //codigo de bad request
+    expect(response.body).toHaveProperty("errors"); //deberia aparecer esta propiedad
+    expect(response.body.errors).toHaveLength(4); //son los 4 errores que deben aparecer segun nuestro codigo en el router(donde hacemos la validacion)
+
+    //que no debe hacer?
+    expect(response.status).not.toBe(404);
+    expect(response.body.errors).not.toHaveLength(2);
+  });
+
+  //simulamos crear un producto con el precio incorrecto
+  it("should validate that the price is greater than 0 ", async () => {
+    const response = await request(server).post("/api/products").send({
+      name: "Impresora- testing",
+      price: 0,
+    });
+
+    //que nos dice postman cuando hacemos esto?
+    expect(response.status).toEqual(400);
+    expect(response.body).toHaveProperty("errors");
+    expect(response.body.errors).toHaveLength(1)
+
+    //que no esperamos?
+    expect(response.status).not.toEqual(404);
+    expect(response.body.errors).not.toHaveLength(2)
+  });
+
+  //simulamos crear un producto con el precio distinto de numerosd
+  it('should validate that price is a number', async()=>{
+    const response = await request(server).post('/api/products').send({
+      name: "Impresora- Testing",
+      price:"hola"
+    })
+
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('errors')
+    expect(response.body.errors).toHaveLength(1)
+
+    expect(response.status).not.toBe(404)
+    expect(response.body.errors).not.toHaveLength(3)
+  })
+
+  //simulamos crear un producto correctamente
   it("should create a new product", async () => {
     const response = await request(server).post("/api/products").send({
-      name: "",
+      name: "Tablet- test",
       price: 20,
     });
 
@@ -43,6 +90,8 @@ export const createProduct = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
+
+- El testing es dejar por escrito en codigo lo que probamos con postman o el simulador de cliente mientras no hay un frontend. Cuando enviamos un producto vacio, con el nombre incorrecto, precio incorrecto, etc vemos que devuelve el servidor/postman, la respuesta que nos da y eso es lo que 'ESPERAMOS' - expect() en el codigo del testing.
 
 
 

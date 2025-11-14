@@ -1,4 +1,4 @@
-import { request, Router } from "express";
+import { Router } from "express";
 import { body, param } from "express-validator";
 import { createProduct, getProductById, getProducts, updateAvailability, updateProduct } from "./handlers/product";
 import { handleInputError } from "./middelware";
@@ -26,15 +26,19 @@ router.get(
 router.post(
   "/",
   //Validacion : name - price
-  body("name").notEmpty().withMessage("El nombre no puede estar vacio"), //esto es un middleware
+  body("name")
+    .isString()
+    .withMessage("El nombre no es valido")
+    .notEmpty()
+    .withMessage("El nombre no puede estar vacio"), //esto es un middleware
 
   body("price")
+    .notEmpty()
+    .withMessage("El precio no puede estar vacio")
     .isFloat({ gt: 0 })
     .withMessage("El precio debe ser un número mayor a 0")
     .toFloat() // convierte el string numérico a número real
-    .withMessage("Valor no valido")
-    .notEmpty()
-    .withMessage("El precio no puede estar vacio"), //esto es un middleware
+    .withMessage("Valor no valido"), //esto es un middleware
 
   handleInputError, //esto es un middelware
 
