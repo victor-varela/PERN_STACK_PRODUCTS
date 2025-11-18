@@ -223,6 +223,8 @@ Sin ts-jest, Jest solo puede correr archivos .js.
 
 - Para limpiar la base de datos, eliminar todo despues de hacer las pruebas testing y evitamos llenar la Db de pruebas aunque eso debe hacerse en una DB de prueba, creamos la carpeta data -> y el archivo index.ts. Ahi usamos la dependencia exit de node y forzamos la eliminacion con {force:true}  y en el packageJson
 
+- Desde Dbeaver eliminaba la base de datos con el codigo sql TRUNCATE TABLE products RESTART IDENTITY; pero hacerlo desde mi codigo en mi proyecto es mucho mas pro!
+
 
 
 

@@ -65,6 +65,28 @@ describe("POST /api/products", () => {
     expect(response.status).not.toBe(200);
     expect(response.body).not.toHaveProperty("errors"); // en handleInputError la propiedad se llama 'errors' en plural.
   });
+
+  //Probamos el endpoint de OBTENER productos
+  describe("GET /api/products", ()=>{
+    //validamos que la url existe
+    it('should check if /api/products url exits', async ()=>{
+      const response = await request(server).get("/api/products")
+
+      expect(response.status).not.toBe(404)
+
+    })
+
+    //Simulamos obtener todos los productos
+    it('should get a json response with products', async()=>{
+      const response = await request(server).get('/api/products')
+
+      expect(response.headers['content-type']).toMatch(/json/)
+      expect(response.body).toHaveProperty('data')
+      expect(response.body.data).toHaveLength(1)
+
+      expect(response.body).not.toHaveProperty('errors')
+    })
+  })
 });
 
 /*

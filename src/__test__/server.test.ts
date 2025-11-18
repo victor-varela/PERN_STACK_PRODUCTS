@@ -41,14 +41,14 @@ describe('GET/api', ()=>{
 })
 
 
-- las funciones describe    no necesitan importacion. Jest ya las tiene en forma global
+- las funciones describe, expect, toBe.. etc    no necesitan importacion. Jest ya las tiene en forma global
 
 - Agregamos la ruta del script en el packageJson--> "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
     "test": "jest" --> 'Esto'
   },
 
-- Para correr la prueba --> npm test}
+- Para correr la prueba --> npm test
 
 - Hay que deshabilitar los console.log porque da este error sino se hace:  Cannot log after tests are done. Did you forget to wait for something async in your test?--> para ello comentamos el console.log en server.ts y en config/db.ts se agrega logging:false
 
