@@ -27,27 +27,27 @@ describe("POST /api/products", () => {
     //que nos dice postman cuando hacemos esto?
     expect(response.status).toEqual(400);
     expect(response.body).toHaveProperty("errors");
-    expect(response.body.errors).toHaveLength(1)
+    expect(response.body.errors).toHaveLength(1);
 
     //que no esperamos?
     expect(response.status).not.toEqual(404);
-    expect(response.body.errors).not.toHaveLength(2)
+    expect(response.body.errors).not.toHaveLength(2);
   });
 
   //simulamos crear un producto con el precio distinto de numerosd
-  it('should validate that price is a number', async()=>{
-    const response = await request(server).post('/api/products').send({
+  it("should validate that price is a number", async () => {
+    const response = await request(server).post("/api/products").send({
       name: "Impresora- Testing",
-      price:"hola"
-    })
+      price: "hola",
+    });
 
-    expect(response.status).toBe(400)
-    expect(response.body).toHaveProperty('errors')
-    expect(response.body.errors).toHaveLength(1)
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("errors");
+    expect(response.body.errors).toHaveLength(1);
 
-    expect(response.status).not.toBe(404)
-    expect(response.body.errors).not.toHaveLength(3)
-  })
+    expect(response.status).not.toBe(404);
+    expect(response.body.errors).not.toHaveLength(3);
+  });
 
   //simulamos crear un producto correctamente
   it("should create a new product", async () => {
@@ -66,27 +66,57 @@ describe("POST /api/products", () => {
     expect(response.body).not.toHaveProperty("errors"); // en handleInputError la propiedad se llama 'errors' en plural.
   });
 
-  //Probamos el endpoint de OBTENER productos
-  describe("GET /api/products", ()=>{
+  //Probamos el endpoint de OBTENER TODOS los  productos
+  describe("GET /api/products", () => {
     //validamos que la url existe
-    it('should check if /api/products url exits', async ()=>{
-      const response = await request(server).get("/api/products")
+    it("should check if /api/products url exits", async () => {
+      const response = await request(server).get("/api/products");
 
-      expect(response.status).not.toBe(404)
-
-    })
+      expect(response.status).not.toBe(404);
+    });
 
     //Simulamos obtener todos los productos
-    it('should get a json response with products', async()=>{
-      const response = await request(server).get('/api/products')
+    it("should get a json response with products", async () => {
+      const response = await request(server).get("/api/products");
 
-      expect(response.headers['content-type']).toMatch(/json/)
-      expect(response.body).toHaveProperty('data')
-      expect(response.body.data).toHaveLength(1)
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.body).toHaveProperty("data");
+      expect(response.body.data).toHaveLength(1);
 
-      expect(response.body).not.toHaveProperty('errors')
-    })
-  })
+      expect(response.body).not.toHaveProperty("errors");
+    });
+  });
+
+  //Probamos el endpoint para obtener un producto por su Id
+  describe("GET /api/products/:id", () => {
+    //simulamos pedir un Id que no existe
+    it("should return a 404 response for a non-existent product", async () => {
+      const productId = 2000; //usamos un Id no existente
+      const response = await request(server).get(`/api/products/${productId}`);
+
+      expect(response.status).toBe(404);
+      expect(response.body).toHaveProperty("error");
+      expect(response.body.error).toBe("Product not found");
+    });
+
+    //simulamos pedir un ID no valido (string)
+    it("should check if id is valid", async () => {
+      const response = await request(server).get("/api/products/not-valid-id");
+
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty("errors");
+      expect(response.body.errors).toHaveLength(1);
+      expect(response.body.errors[0].msg).toBe("Id no es valido");
+    });
+
+    //simulamos pedir un producto por su Id correcto
+    it("get a JSON response for a single product", async () => {
+      const response = await request(server).get("/api/products/1");
+
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty("data");
+    });
+  });
 });
 
 /*
@@ -114,6 +144,8 @@ export const createProduct = async (req: Request, res: Response) => {
 };
 
 - El testing es dejar por escrito en codigo lo que probamos con postman o el simulador de cliente mientras no hay un frontend. Cuando enviamos un producto vacio, con el nombre incorrecto, precio incorrecto, etc vemos que devuelve el servidor/postman, la respuesta que nos da y eso es lo que 'ESPERAMOS' - expect() en el codigo del testing.
+
+- Fijate que para saber que pruebas hacer basta con ver el router.ts. Ahi estan las rutas precisamente que forman la API y cada una es una prueba. Si miras router.ts y este archivo veras la conexion que tienen. 
 
 
 
