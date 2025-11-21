@@ -123,15 +123,18 @@ describe("GET /api/products/:id", () => {
 describe("PUT /api/products/:id", () => {
   //simulamos actualizar un producto con id no existente
   it("should return a 404 response for a non existent product", async () => {
-    const response = await request(server).put("/api/products/2000").send({
+    const productID = 2000
+    const response = await request(server).put(`/api/products/${productID}`).send({
       name: "Monitor curvo - ACTUALIZADO",
       price: 400,
       availability: true,
     });
 
     expect(response.status).toBe(404);
-    expect(response.body).toHaveProperty("error");
     expect(response.body.error).toBe("Product not found");
+
+    expect(response.status).not.toBe(200)
+    expect(response.body).not.toHaveProperty('data')
   });
 
   //simulamos actualizar un producto con id no valido
@@ -171,6 +174,21 @@ describe("PUT /api/products/:id", () => {
     expect(response.status).toBe(400)
     expect(response.body.errors).toBeTruthy()
     expect(response.body.errors[0].msg).toBe('El precio debe ser un número mayor a 0')
+  });
+
+  //simulamos actualizar correctamente un producto
+   it("should update an existing product with valid data", async () => {
+    const response = await request(server).put("/api/products/1").send({
+      name: "Monitor curvo - ACTUALIZADO",
+      price: 20,
+      availability: true,
+    });
+
+    expect(response.status).toBe(200)
+    expect(response.body.data).toBeTruthy()
+    
+    expect(response.status).not.toBe(400)
+    expect(response.body.errors).toBeFalsy()
   });
 });
 
