@@ -48,7 +48,8 @@ router.post(
 //Actualizar un producto
 router.put(
   "/:id",
-
+  //validamos param id
+  param("id").isInt().withMessage("Id no valido"),
   //Validacion
   body("name")
     .isString()
