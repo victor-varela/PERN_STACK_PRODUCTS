@@ -1,6 +1,13 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
-import { createProduct, getProductById, getProducts, updateAvailability, updateProduct } from "./handlers/product";
+import {
+  createProduct,
+  deleteProduct,
+  getProductById,
+  getProducts,
+  updateAvailability,
+  updateProduct,
+} from "./handlers/product";
 import { handleInputError } from "./middelware";
 export const router = Router();
 
@@ -91,9 +98,17 @@ router.patch(
   updateAvailability
 );
 
-router.delete("/", (req, res) => {
-  res.json("Desde DELETE");
-});
+router.delete(
+  "/:id",
+
+  //validamos el praram
+  param("id").isInt().withMessage("Id no valido"),
+
+  //invocamos el middelware de errores
+  handleInputError,
+
+  deleteProduct
+);
 
 /*
 - Cuando pegamos las rutas que teniamos en server con server.get, server.post, etc perdemos la referencia de server. Entonces usamos una INSTANCIA del ROUTER de express. Lo importamos y ese lo usamos en server.ts. Entonces Index maneja --> Server maneja--> Router
