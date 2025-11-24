@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.92% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>34/41</span>
+                <span class='fraction'>41/41</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/8</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>28/35</span>
+                <span class='fraction'>35/35</span>
             </div>
         
             
@@ -384,23 +384,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -636,25 +636,25 @@ export const updateProduct = async (req: Request, res: Response) =&gt; {
 };
 &nbsp;
 //5. Actualizar un solo campo del producto
-export const updateAvailability = <span class="fstat-no" title="function not covered" >async </span>(req: Request, res: Response) =&gt; {
+export const updateAvailability = async (req: Request, res: Response) =&gt; {
    //Encontramos el producto
-    const { id } = <span class="cstat-no" title="statement not covered" >req.params;</span>
+    const { id } = req.params;
 &nbsp;
-    const product = <span class="cstat-no" title="statement not covered" >await Product.findByPk(id);</span>
-<span class="cstat-no" title="statement not covered" >    if (!product) {</span>
-<span class="cstat-no" title="statement not covered" >      return res.status(404).json({ error: "Product not found" });</span>
+    const product = await Product.findByPk(id);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
     }
 &nbsp;
     // 3️⃣ Alternamos el valor actual de "availability"
     // ⚙️ 'dataValues' es un objeto interno de Sequelize que contiene los valores actuales del registro (las columnas de la tabla).
     // Al acceder a product.dataValues.availability obtenemos el valor almacenado en la base de datos,
     // y al asignar product.availability = ... actualizamos la propiedad del modelo antes de guardarla.
-<span class="cstat-no" title="statement not covered" >    product.availability = !product.dataValues.availability;</span>
+    product.availability = !product.dataValues.availability;
 &nbsp;
     //Guardamos en DB
-<span class="cstat-no" title="statement not covered" >    await product.save();</span>
+    await product.save();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    res.json({ data: product });</span>
+    res.json({ data: product });
 };
 &nbsp;
 //6. Borrar un producto--&gt; .destroy()
@@ -832,7 +832,7 @@ export const restoreProduct = async (req: Request, res: Response) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-24T18:59:39.199Z
+                at 2025-11-24T20:14:36.585Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

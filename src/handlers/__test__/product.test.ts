@@ -192,6 +192,43 @@ describe("PUT /api/products/:id", () => {
   });
 });
 
+//probamos el endpoint para actualizar availability de un producto
+describe('PATCH/api/products/:id',()=>{
+
+  //simulamos actualizar un id no valido
+  it('should return 400 for a not valid id', async()=>{
+    const response= await request(server).patch('/api/products/not-valid-id')
+
+    expect(response.status).toBe(400)
+    expect(response.body.errors).toBeTruthy()
+  })
+
+  //simulamos actualizar availability de  un producto con id inexistente
+  it('should return 404 not found', async()=>{
+    const productID= 2000
+    const response = await request(server).patch(`/api/products/${productID}`)
+
+    expect(response.status).toBe(404)
+    expect(response.body.error).toBe('Product not found')
+
+    expect(response.status).not.toBe(200)
+  })
+
+  //simulamos actualizar availability de  un producto correctamente
+  it('should update product availability',async ()=>{
+    const response = await request(server).patch('/api/products/1')
+
+    expect(response.status).toBe(200)
+    expect(response.body.data).toBeTruthy()
+    expect(response.body.data.availability).toBe(false)
+    
+    expect(response.status).not.toBe(400)
+    expect(response.status).not.toBe(404)
+    expect(response.body).not.toHaveProperty('error')
+  })
+})
+
+
 //probamos el endpoint para eliminar un producto
 describe("DELETE /api/products/:id", () => {
   //simulamos un id no valido
@@ -225,17 +262,6 @@ describe("DELETE /api/products/:id", () => {
   });
 });
 
-//probamos el endpoint para actualizar availability de un producto
-describe('PATCH/api/products/:id',()=>{
-
-  //simulamos actualizar un id no valido
-  it('should return 400 for a not valid id', async()=>{
-    const response= await request(server).patch('/api/products/not-valid-id')
-
-    expect(response.status).toBe(400)
-    expect(response.body.errors).toBeTruthy()
-  })
-})
 
 /*
 
@@ -266,6 +292,8 @@ export const createProduct = async (req: Request, res: Response) => {
 - Fijate que para saber que pruebas hacer basta con ver el router.ts. Ahi estan las rutas precisamente que forman la API y cada una es una prueba. Si miras router.ts y este archivo veras la conexion que tienen. 
 
 - La dinamica para escribir los test es asi: ves en el router la validacion que tiene, haces la peticion con postman forzando cada validacion a que se cumpla y ves que devuelve. La peticion es el it, lo que devuelve es el expect
+
+- Ojo que las pruebas deben ir en orden: POST - GET- PUT- PATCH- DELETE, eso afecta la ejecucion de las pruebas. Como hicimos de ultimo para mostrar el codecoverage el PATCH luego se ejecutaba el DELETE y no pasaba la prueba para actualizar el availability, movi en el codigo el PATCH antes del DELETE y ahi si paso la prueba.
 
 
 
