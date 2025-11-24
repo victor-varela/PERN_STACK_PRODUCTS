@@ -18,33 +18,24 @@ export const createProduct = async (req: Request, res: Response) => {
   //Forma 2 con .create
 
   //instaciamos el modelo
-  try {
-    const product = await Product.create(req.body); // crea la instancia y almacena en Db. Esperamos la insercion en la Db y ya tenemos en la variable el id
+  const product = await Product.create(req.body); // crea la instancia y almacena en Db. Esperamos la insercion en la Db y ya tenemos en la variable el id
 
     //Retornamos la 'respuesta' res
     res.status(201).json({ data: product }); // es mas directo. 201 convencion http para 'creacion'--> doc en MDN-> http response status codes
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 //2. Ahora que hemos creado producots podemos escribir el codigo para obtener productos
 export const getProducts = async (req: Request, res: Response) => {
-  try {
     const products = await Product.findAll({
       attributes: { exclude: ["createdAt", "updatedAt", "availability"] },
     });
 
     res.json({ data: products });
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 //3. Obtener un producto por su ID
 export const getProductById = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
+  const { id } = req.params;
     const product = await Product.findByPk(id);
 
     if (!product) {
@@ -52,14 +43,10 @@ export const getProductById = async (req: Request, res: Response) => {
     }
 
     res.json({ data: product });
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 //4. Actualizar un producto Completo -> .update()
 export const updateProduct = async (req: Request, res: Response) => {
-  try {
     //Obtenemos el producto
     const { id } = req.params;
     const product = await Product.findByPk(id);
@@ -73,15 +60,11 @@ export const updateProduct = async (req: Request, res: Response) => {
     await product.update(req.body);
 
     res.json({ data: product });
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 //5. Actualizar un solo campo del producto
 export const updateAvailability = async (req: Request, res: Response) => {
-  try {
-    //Encontramos el producto
+   //Encontramos el producto
     const { id } = req.params;
 
     const product = await Product.findByPk(id);
@@ -99,15 +82,11 @@ export const updateAvailability = async (req: Request, res: Response) => {
     await product.save();
 
     res.json({ data: product });
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 //6. Borrar un producto--> .destroy()
 export const deleteProduct = async (req: Request, res: Response) => {
-  try {
-    //Buscamos el producto
+  //Buscamos el producto
     const { id } = req.params;
     const product = await Product.findByPk(id);
     if (!product) {
@@ -119,9 +98,6 @@ export const deleteProduct = async (req: Request, res: Response) => {
 
     //Respondemos
     res.json({ data: "Producto eliminado" }); //por convencion usamos data en las respuestas finales
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 /*

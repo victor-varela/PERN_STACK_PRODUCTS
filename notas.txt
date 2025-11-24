@@ -225,6 +225,11 @@ Sin ts-jest, Jest solo puede correr archivos .js.
 
 - Desde Dbeaver eliminaba la base de datos con el codigo sql TRUNCATE TABLE products RESTART IDENTITY; pero hacerlo desde mi codigo en mi proyecto es mucho mas pro!
 
+CODE COVERAGE: 
+- Metrica para la cantidad de codigo ejecutado al menos 1 vez. >=80% es lo aceptable. 
+- En el packageJson se agrega un script: "test:coverage": "npm run pretest && jest --detectOpenHandles --coverage"
+- Vemos que los try catch no son relevantes porque aseguramos desde el codigo que no entre en el catch. Por eso Jest nos muestra en el coverage que product.ts tiene varias lineas que no se ejecutaron nunca (la mayoria son los catchs). Los eliminamos.
+
 
 
 

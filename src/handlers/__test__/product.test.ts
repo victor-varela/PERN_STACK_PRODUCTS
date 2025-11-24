@@ -193,7 +193,7 @@ describe("PUT /api/products/:id", () => {
 });
 
 //probamos el endpoint para eliminar un producto
-describe("DELETE /api", () => {
+describe("DELETE /api/products/:id", () => {
   //simulamos un id no valido
   it("should return a 400 response for a not valid id", async () => {
     const response = await request(server).delete("/api/products/not-valid-id");
@@ -224,6 +224,18 @@ describe("DELETE /api", () => {
     expect(response.status).not.toBe(400);
   });
 });
+
+//probamos el endpoint para actualizar availability de un producto
+describe('PATCH/api/products/:id',()=>{
+
+  //simulamos actualizar un id no valido
+  it('should return 400 for a not valid id', async()=>{
+    const response= await request(server).patch('/api/products/not-valid-id')
+
+    expect(response.status).toBe(400)
+    expect(response.body.errors).toBeTruthy()
+  })
+})
 
 /*
 
