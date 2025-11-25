@@ -238,6 +238,7 @@ Sin ts-jest, Jest solo puede correr archivos .js.
   -⚙️ SWAGGER : Documentar Apis: Swagger. Instalamos Swagger --> npm i swagger-jsdoc swagger-ui-express y para tener los types npm i -D @types/swagger-jsdoc @types/swagger-ui-express
   - Se crea archivo swagger.ts en la carpeta config /src/config --> ahi va la informacion general de la API se configura el objeto de options.
   - Se agrega una ruta para la Doc en el server.ts para eso usamos swaggerUi.
+  - Creamos el schema de productos. Agregamos en comentarios para que swagger los lea.
 
 
 

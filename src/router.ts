@@ -13,6 +13,56 @@ export const router = Router();
 
 //se reemplazo para codigo mas compacto (req,res)=>{} por su handler antes era router.get('/', (req, res)=>{res.json('desde get')}) --> getProducts
 
+//CREAMOS SCHEMA DE PRODUCTS PARA SWAGGER
+/**
+ * @swagger
+ * components:
+ *    schemas:
+ *      Product:
+ *        type: object
+ *        properties:
+ *            id:
+ *                type: integer
+ *                description: The Product ID
+ *                example: 1    
+ *            price:
+ *                type: number
+ *                description: The Product price
+ *                example: 100             
+ *            name:
+ *                type: string
+ *                description: The Product name
+ *                example: Monitor Curvo 40 pulgadas             
+ *            availability:
+ *                type: boolean
+ *                description: The Product availability
+ *                example: true  
+ */
+
+//Documentamos 'GET /api/products'
+
+/**
+ * @swagger
+ * /api/products:
+ *      get:
+ *        summary: Get a list of all products
+ *        tags:
+ *            - Products
+ *        description: Return a list of products
+ *        responses:
+ *            200:
+ *              description: Succesful response
+ *              content:
+ *                    application/json:
+ *                        schema:
+ *                            type: array
+ *                            items:
+ *                                $ref: '#/components/schemas/Product'
+ * 
+ * 
+ * 
+ */
+
 //Obtener todos los productos
 router.get("/", getProducts);
 
@@ -183,6 +233,6 @@ En el campo precio reemplazo el codigo del profesor por :
 
 - Para actualizar solamente availability usamos un peticion vacia en postman, porque internamente estamos alternando el valor de availability.
 
-
+- Agregamos los comentarios de swagger al router para que muestre el schema de Products en nuestra Docs.
 
 */
