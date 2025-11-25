@@ -3,29 +3,22 @@ import server from "../server";
 
 
 //👉 Es equivalente a que vos abras Postman y hagas esa misma petición, pero automatizada.
-describe('GET/api', ()=>{
-    it('should send back a json response', async ()=>{
-        const response = await request(server).get('/api')
+//Simulamos una peticion al servidor para ver si esta 'vivo'
+describe("GET/api", () => {
+  it("should send back a json response", async () => {
+    const response = await request(server).get("/api");
 
-        //Se valida lo que debe hacer
+    //Se valida lo que debe hacer
 
-        expect(response.status).toBe(200)
-        expect(response.headers['content-type']).toMatch(/json/)
-        expect(response.body.msg).toBe('Desde API')
+    expect(response.status).toBe(200);
+    expect(response.headers["content-type"]).toMatch(/json/);
+    expect(response.body.msg).toBe("Desde API");
 
-        //Se valida tambien por la contraria, lo que no debe hacer --> not 'sin parentesis'
-        expect(response.status).not.toBe(404)
-        expect(response.body.msg).not.toBe('desde api') //en minusculas...
-        
-
-        
-    })
-})
-
-
-
-
-
+    //Se valida tambien por la contraria, lo que no debe hacer --> not 'sin parentesis'
+    expect(response.status).not.toBe(404);
+    expect(response.body.msg).not.toBe("desde api"); //en minusculas...
+  });
+});
 
 
 

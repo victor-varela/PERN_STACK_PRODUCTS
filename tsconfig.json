@@ -11,8 +11,7 @@
         "emitDecoratorMetadata": true,
         "target": "esnext",
         "moduleResolution": "nodenext",
-        "module": "nodenext"
-        
+        "module": "nodenext",
     },
     "include": ["src/**/*.ts"]
 }

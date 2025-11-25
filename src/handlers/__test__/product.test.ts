@@ -263,6 +263,9 @@ describe("DELETE /api/products/:id", () => {
 });
 
 
+
+
+
 /*
 
 - Al igual que cuando hicimos el routing y fuimos creando las funciones de cada uno, PRIMERO creamos POST, porque hay que crear productos para despues GET, PUT, PATCH, DELETE. Probamos el ENDPOINT de crear productos. Por eso el describe es POST/api/products. TIene la forma del router del server.ts === > server.use("/api/products", router);

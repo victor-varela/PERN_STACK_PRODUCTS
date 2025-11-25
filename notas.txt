@@ -228,7 +228,11 @@ Sin ts-jest, Jest solo puede correr archivos .js.
 CODE COVERAGE: 
 - Metrica para la cantidad de codigo ejecutado al menos 1 vez. >=80% es lo aceptable. 
 - En el packageJson se agrega un script: "test:coverage": "npm run pretest && jest --detectOpenHandles --coverage"
-- Vemos que los try catch no son relevantes porque aseguramos desde el codigo que no entre en el catch. Por eso Jest nos muestra en el coverage que product.ts tiene varias lineas que no se ejecutaron nunca (la mayoria son los catchs). Los eliminamos.
+- Vemos que los try catch no son relevantes porque aseguramos desde el codigo que no entre en el catch. Por eso Jest nos muestra en el coverage que product.ts tiene varias lineas que no se ejecutaron nunca (la mayoria son los catchs). Los eliminamos. Se podria en lugar d eeliminarlos reescribirlos con un    catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+  - Forzamos un error en la conexion con la DB a traves de Jest con funciones como:spyOn y mockRejectedValue. Para ello agregamos una prueba en server.test.ts ya que ahi estan las lineas que no se ejecutan segun el reporte de code coverage.
 
 
 
