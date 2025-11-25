@@ -232,7 +232,8 @@ CODE COVERAGE:
     console.error(error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
-  - Forzamos un error en la conexion con la DB a traves de Jest con funciones como:spyOn y mockRejectedValue. Para ello agregamos una prueba en server.test.ts ya que ahi estan las lineas que no se ejecutan segun el reporte de code coverage.
+  - Forzamos un error en la conexion con la DB a traves de Jest con funciones como:spyOn y mockRejectedValue. Para ello creamos un archivo en __test__\dbConnection.test.ts  ya que ahi estan las lineas que no se ejecutan segun el reporte de code coverage.
+  -Documentar Apis: Swagger. Instalamos Swagger --> npm i swagger-jsdoc swagger-ui-express y para tener los types npm i -D @types/swagger-jsdoc @types/swagger-ui-express
 
 
 
