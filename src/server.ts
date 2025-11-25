@@ -1,7 +1,10 @@
 import express from "express";
 import colors from 'colors'
+import swaggerUi from 'swagger-ui-express'
 import { router } from "./router";
 import { db } from "./config/db";
+import swaggerSpec from "./config/swagger";
+
 
 //Instancia de Express
 const server = express();
@@ -32,6 +35,12 @@ server.get('/api', (req, res)=>{
   res.json({"msg":"Desde API"})
 })
 
+//Creamos ruta pra la Documentacion 
+//swaggerUi.serve -->	Sirve archivos estáticos del UI
+//swaggerUi.setup(swaggerSpec)-->	Renderiza la UI con tu especificación
+
+server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec)) 
+
 export default server;
 
 /*
@@ -48,6 +57,8 @@ Ahora server.get - server.post, etc se RESUME EN SERVER.USE - donde pasamos el p
 index maneja a --> Server maneja a --> Db
 
 - Este archivo arranca la DB y define la ruta base de la API.
+
+- Para documentar la API, importamos swaggerUiExpress y swaggerJsDoc. Entonces tenemos la ruta para que cree la pagina de documentacion.
 
 
 */
