@@ -66,6 +66,37 @@ export const router = Router();
 //Obtener todos los productos
 router.get("/", getProducts);
 
+//Documentamos Obtener un producto por ID
+/**
+ * @swagger
+ * /api/products/{id}:
+ *      get:
+ *        summary: Get a product by ID
+ *        tags:
+ *            - Products
+ *        description: Return a product based on its unique ID
+ *        parameters:
+ *          - in: path  
+ *            name: id
+ *            description: The ID of the product to retrieve
+ *            required: true
+ *            shema:
+ *                type: integer 
+ *        responses:
+ *             200:
+ *                description: Succesful response
+ *                content:
+ *                    application/json:
+ *                      schema:
+ *                        $ref: '#/components/schemas/Product'
+ *             404:
+ *                description: Not found
+ *             400:  
+ *               description: Bad request - Invalid ID
+ * 
+ * 
+ * 
+ */
 //Obtener un producto por su Id.-> Usamos el routing dinamico de Express :id-> se nombra id por convencion
 router.get(
   "/:id",
