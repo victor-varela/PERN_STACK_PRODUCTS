@@ -24,19 +24,19 @@ export const router = Router();
  *            id:
  *                type: integer
  *                description: The Product ID
- *                example: 1    
+ *                example: 1
  *            price:
  *                type: number
  *                description: The Product price
- *                example: 100             
+ *                example: 100
  *            name:
  *                type: string
  *                description: The Product name
- *                example: Monitor Curvo 40 pulgadas             
+ *                example: Monitor Curvo 40 pulgadas
  *            availability:
  *                type: boolean
  *                description: The Product availability
- *                example: true  
+ *                example: true
  */
 
 //Documentamos 'GET /api/products'
@@ -58,9 +58,9 @@ export const router = Router();
  *                            type: array
  *                            items:
  *                                $ref: '#/components/schemas/Product'
- * 
- * 
- * 
+ *
+ *
+ *
  */
 
 //Obtener todos los productos
@@ -76,12 +76,12 @@ router.get("/", getProducts);
  *            - Products
  *        description: Return a product based on its unique ID
  *        parameters:
- *          - in: path  
+ *          - in: path
  *            name: id
  *            description: The ID of the product to retrieve
  *            required: true
  *            shema:
- *                type: integer 
+ *                type: integer
  *        responses:
  *             200:
  *                description: Succesful response
@@ -91,11 +91,11 @@ router.get("/", getProducts);
  *                        $ref: '#/components/schemas/Product'
  *             404:
  *                description: Not found
- *             400:  
+ *             400:
  *               description: Bad request - Invalid ID
- * 
- * 
- * 
+ *
+ *
+ *
  */
 //Obtener un producto por su Id.-> Usamos el routing dinamico de Express :id-> se nombra id por convencion
 router.get(
@@ -109,6 +109,39 @@ router.get(
 
   getProductById
 );
+
+//Documentamos crear un nuevo producto
+
+/**
+ * @swagger
+ * /api/products:
+ *  post:
+ *    summary: Creates a new Product
+ *    tags:
+ *      - Products
+ *    description: Returns a new record in database
+ *    requestBody:
+ *        required: true
+ *        content:
+ *            application/json:
+ *             schema:
+ *                 type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                     example: "Microchip Nvidia"
+ *                   price:
+ *                     type: number
+ *                     example: 399
+ *    responses:
+ *        201:
+ *          description: Product created succesfully
+ *        400:
+ *         description: Bad Request - Invalid input data
+ *
+ *
+ *
+ */
 
 //Crear un producto. Se reemplazo para codigo mas compacto (req,res)=>{} por su handler
 router.post(
