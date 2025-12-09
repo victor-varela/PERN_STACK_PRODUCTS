@@ -136,6 +136,10 @@ router.get(
  *    responses:
  *        201:
  *          description: Product created succesfully
+ *          content:
+ *             application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/Product'   
  *        400:
  *         description: Bad Request - Invalid input data
  *
@@ -165,6 +169,59 @@ router.post(
 
   createProduct
 ); //esto es un middleware
+
+//Documentamos actualizar un producto
+
+/**
+ *  @swagger
+ *  /api/products/{id}:
+ *    put:
+ *        summary: Updates a Product with user input
+ *        tags:
+ *            - Products
+ *        description: Returns the updated product
+ *        parameters:
+ *          - in: path
+ *            name: id
+ *            description: The ID of the product to retrieve
+ *            required: true
+ *            shema:
+ *                type: integer
+ *        requestBody:
+ *          required: true
+ *          content:
+ *            application/json:
+ *             schema:
+ *                 type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                     example: "Microchip Nvidia"
+ *                   price:
+ *                     type: number
+ *                     example: 399
+ *                   availability:
+ *                      type: boolean
+ *                      example: true
+ *        responses:
+ *          200:
+ *            description: Succesful response
+ *            content:
+ *              application/json:
+ *                 schema:
+ *                   $ref: '#/components/schemas/Product'          
+ *          400:
+ *            description: Bad Request - Invalid ID or Invalid input data
+ *          404:
+ *            description: Product not Found  
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
 
 //Actualizar un producto
 router.put(
