@@ -301,7 +301,7 @@ router.patch(
  *    parameters:
  *          - in: path
  *            name: id
- *            description: The ID of the product to retrieve
+ *            description: The ID of the product to delete
  *            required: true
  *            shema:
  *                type: integer        
