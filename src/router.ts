@@ -59,8 +59,6 @@ export const router = Router();
  *                            items:
  *                                $ref: '#/components/schemas/Product'
  *
- *
- *
  */
 
 //Obtener todos los productos
@@ -93,8 +91,6 @@ router.get("/", getProducts);
  *                description: Not found
  *             400:
  *               description: Bad request - Invalid ID
- *
- *
  *
  */
 //Obtener un producto por su Id.-> Usamos el routing dinamico de Express :id-> se nombra id por convencion
@@ -139,11 +135,9 @@ router.get(
  *          content:
  *             application/json:
  *                  schema:
- *                      $ref: '#/components/schemas/Product'   
+ *                      $ref: '#/components/schemas/Product'
  *        400:
  *         description: Bad Request - Invalid input data
- *
- *
  *
  */
 
@@ -209,18 +203,12 @@ router.post(
  *            content:
  *              application/json:
  *                 schema:
- *                   $ref: '#/components/schemas/Product'          
+ *                   $ref: '#/components/schemas/Product'
  *          400:
  *            description: Bad Request - Invalid ID or Invalid input data
  *          404:
- *            description: Product not Found  
- * 
- * 
- * 
- * 
- * 
- * 
- * 
+ *            description: Product not Found
+ *
  */
 
 //Actualizar un producto
@@ -257,6 +245,37 @@ router.put(
   updateProduct
 );
 
+//Documentamos Patch- availability
+
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  patch:
+ *    summary: Upadate Product availability
+ *    tags:
+ *       - Products
+ *    description: Returns the updated availability
+ *    parameters:
+ *          - in: path
+ *            name: id
+ *            description: The ID of the product to retrieve
+ *            required: true
+ *            shema:
+ *                type: integer        
+ *    responses:
+ *        400:
+ *          description: Bad Request - Not valid ID
+ *        404:
+ *          description: Product not found
+ *        200:
+ *          description: Succesful response
+ *          content:
+ *              application/json:
+ *                 schema:
+ *                   $ref: '#/components/schemas/Product'
+ * 
+ */
+
 //Para modificar un solo campo: Availability
 router.patch(
   "/:id",
@@ -268,6 +287,40 @@ router.patch(
 
   updateAvailability
 );
+
+//Documentamos Delete
+
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  delete:
+ *    summary: Delete a Product
+ *    tags:
+ *      - Products
+ *    description: Returns a delete message
+ *    parameters:
+ *          - in: path
+ *            name: id
+ *            description: The ID of the product to retrieve
+ *            required: true
+ *            shema:
+ *                type: integer        
+ *    responses:
+ *        400:
+ *          description: Bad Request - Not valid ID
+ *        404:
+ *          description: Product not found
+ *        200:
+ *          description: Succesful response
+ *          content:
+ *              application/json:
+ *                 schema:
+ *                  type: object
+ *                  properties:
+ *                   data:
+ *                     type: string
+ *                     example: "Producto eliminado"
+ */
 
 router.delete(
   "/:id",
