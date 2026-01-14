@@ -1,4 +1,5 @@
 import swaggerJSDoc from "swagger-jsdoc";
+import { SwaggerUiOptions } from "swagger-ui-express";
 
 // Objeto de configuración para swagger-jsdoc
 const options: swaggerJSDoc.Options = {
@@ -28,8 +29,19 @@ const options: swaggerJSDoc.Options = {
 // Generamos la especificación Swagger final basada en "options"
 const swaggerSpec = swaggerJSDoc(options);
 
+//Personalizamos Css de Swagger
+const swaggerUiOptions: SwaggerUiOptions = {
+  customCss: `
+    .swagger-ui .topbar {
+      background-color: blue
+    }
+  `,
+  customSiteTitle: "Documentacion REST API Express / TypeScript",
+};
+
 // Exportamos para usarlo en server.ts
 export default swaggerSpec;
+export { swaggerUiOptions };
 
 /*
 - Importamos swaggerJSDoc de la dependencia
